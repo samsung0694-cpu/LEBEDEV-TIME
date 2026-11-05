@@ -1,9 +1,9 @@
-name: LEBEDEV TIME — Daily Edition
+name: LEBEDEV TIME Daily Edition
 
-"on":
-  schedule:
-    - cron: "0 7 * * *"
+on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
 
 permissions:
   contents: write
@@ -11,20 +11,17 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Install dependencies
         run: pip install google-genai
 
-      - name: Generate daily edition
+      - name: Generate edition
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python generate.py
@@ -33,6 +30,6 @@ jobs:
         run: |
           git config user.name "LEBEDEV TIME Bot"
           git config user.email "actions@github.com"
-          git add .
+          git add data/edition.json
           git diff --cached --quiet || git commit -m "Daily edition"
           git push
