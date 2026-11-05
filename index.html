@@ -1,293 +1,159 @@
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEBEDEV TIME — Журнал о главном</title>
+<meta name="description" content="LEBEDEV TIME — независимый взгляд на события, право, общество, экономику и жизнь.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
 :root {
-  --red: #d9232e;
-  --black: #202020;
-  --gray: #777;
-  --line: #e5e1de;
-  --paper: #fff;
+  --red:#e31b23;
+  --black:#171717;
+  --gray:#777;
+  --paper:#f7f6f2;
+  --line:#dedbd5;
 }
-
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--black);font-family:'DM Sans',sans-serif}
+a{color:inherit;text-decoration:none}
+.topline{background:var(--black);color:white;padding:9px 5%;display:flex;justify-content:space-between;font-size:11px;letter-spacing:1px}
+header{padding:24px 5% 16px;border-bottom:1px solid var(--line)}
+.brand{text-align:center;font-family:'Playfair Display',serif;font-size:clamp(38px,8vw,76px);font-weight:800;letter-spacing:-3px;line-height:1}
+.brand span{color:var(--red)}
+.tagline{text-align:center;margin-top:9px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gray)}
+nav{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;padding:15px 5%;border-bottom:3px solid var(--black);font-size:12px;font-weight:700;text-transform:uppercase}
+nav a:hover{color:var(--red)}
+.container{max-width:1180px;margin:auto;padding:30px 22px}
+.kicker{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--red)}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:35px;align-items:center;padding:15px 0 38px;border-bottom:1px solid var(--line)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,6vw,68px);line-height:1.03;letter-spacing:-2px;margin:15px 0}
+.hero p{font-size:16px;line-height:1.8;color:#555;max-width:550px}
+.hero-image{width:100%;height:430px;object-fit:cover;object-position:center 25%;filter:contrast(1.03)}
+.byline{font-size:11px;color:var(--gray);margin-top:20px}
+.section-title{font-family:'Playfair Display',serif;font-size:30px;margin:36px 0 20px;border-bottom:3px solid var(--black);padding-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.article{border-bottom:1px solid var(--line);padding-bottom:22px}
+.article .number{font-family:'Playfair Display',serif;font-size:32px;color:var(--red)}
+.article h3{font-family:'Playfair Display',serif;font-size:23px;line-height:1.2;margin:8px 0}
+.article p{font-size:13px;line-height:1.7;color:#666}
+.label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--red);text-transform:uppercase}
+.about{margin-top:45px;background:#191919;color:white;padding:35px;display:grid;grid-template-columns:1fr 2fr;gap:25px;align-items:center}
+.about h2{font-family:'Playfair Display',serif;font-size:35px;margin:0}
+.about p{font-size:14px;line-height:1.8;color:#ccc}
+footer{background:var(--black);color:#aaa;padding:25px 5%;text-align:center;font-size:11px;letter-spacing:1px;margin-top:40px}
+footer strong{color:white}
+@media(max-width:700px){
+ .topline{font-size:9px;padding:9px 12px}
+ header{padding:22px 10px 15px}
+ .brand{letter-spacing:-2px}
+ nav{gap:13px;font-size:10px;padding:13px 8px}
+ .container{padding:22px 17px}
+ .hero{grid-template-columns:1fr;gap:20px}
+ .hero h1{font-size:43px}
+ .hero-image{height:390px;object-position:center 25%}
+ .grid{grid-template-columns:1fr;gap:20px}
+ .about{grid-template-columns:1fr;padding:25px}
+ .section-title{font-size:27px}
 }
+</style>
+</head>
+<body>
+<div class="topline">
+  <span>LEBEDEV MEDIA GROUP</span>
+  <span id="clock">МОСКВА</span>
+</div>
 
-body {
-  margin: 0;
-  background: #f1f0ee;
-  color: var(--black);
-  font-family: 'DM Sans', Arial, sans-serif;
-  font-weight: 400;
+<header>
+  <div class="brand">LEBEDEV<span> TIME</span></div>
+  <div class="tagline">Время понимать главное</div>
+</header>
+
+<nav>
+  <a href="#main">Главное</a>
+  <a href="#politics">Политика</a>
+  <a href="#law">Право</a>
+  <a href="#society">Общество</a>
+  <a href="#economy">Экономика</a>
+  <a href="#technology">Технологии</a>
+  <a href="#mind">Психология</a>
+  <a href="#stories">Истории</a>
+</nav>
+
+<main class="container">
+<section class="hero" id="main">
+  <div>
+    <div class="kicker">Главная тема · LEBEDEV TIME</div>
+    <h1>Мир меняется.<br>Важно понимать почему.</h1>
+    <p>Новости, аналитика и истории о людях, обществе и событиях, которые формируют наше настоящее и будущее.</p>
+    <div class="byline">LEBEDEV TIME · ЛИЧНЫЙ РЕДАКЦИОННЫЙ ПРОЕКТ</div>
+  </div>
+  <img class="hero-image" src="portrait.PNG" alt="Портрет основателя LEBEDEV TIME">
+</section>
+
+<h2 class="section-title">Главные направления</h2>
+<section class="grid">
+  <article class="article" id="politics">
+    <div class="number">01</div><div class="label">Политика</div>
+    <h3>Власть и общество</h3>
+    <p>Ключевые политические события, решения и процессы, определяющие развитие страны и мира.</p>
+  </article>
+  <article class="article" id="law">
+    <div class="number">02</div><div class="label">Право</div>
+    <h3>Закон и справедливость</h3>
+    <p>Правовые изменения, судебная практика, громкие дела и вопросы законности.</p>
+  </article>
+  <article class="article" id="society">
+    <div class="number">03</div><div class="label">Общество</div>
+    <h3>Люди и перемены</h3>
+    <p>Социальные тенденции, общественные явления и истории человеческих судеб.</p>
+  </article>
+  <article class="article" id="economy">
+    <div class="number">04</div><div class="label">Экономика</div>
+    <h3>Деньги и будущее</h3>
+    <p>Экономические процессы, бизнес, рынки и решения, влияющие на повседневную жизнь.</p>
+  </article>
+  <article class="article" id="technology">
+    <div class="number">05</div><div class="label">Технологии</div>
+    <h3>Будущее уже наступило</h3>
+    <p>Искусственный интеллект, цифровой мир, научные открытия и технологические прорывы.</p>
+  </article>
+  <article class="article" id="mind">
+    <div class="number">06</div><div class="label">Психология</div>
+    <h3>Почему мы поступаем именно так?</h3>
+    <p>Психология поведения, мышление, отношения и скрытые механизмы человеческих решений.</p>
+  </article>
+  <article class="article" id="stories">
+    <div class="number">07</div><div class="label">Необычные истории</div>
+    <h3>Тайны, загадки и открытия</h3>
+    <p>Удивительные события, неразгаданные истории и факты, заставляющие задуматься.</p>
+  </article>
+</section>
+
+<section class="about">
+  <h2>LEBEDEV TIME</h2>
+  <p>Это авторский медиапроект о том, что действительно заслуживает внимания. Мы стремимся смотреть глубже заголовков, отделять факты от мнений и находить смысл в происходящем. <strong>Время понимать главное.</strong></p>
+</section>
+</main>
+
+<footer>
+  <strong>LEBEDEV TIME</strong><br><br>
+  ВРЕМЯ ПОНИМАТЬ ГЛАВНОЕ<br><br>
+  © <span id="year"></span> LEBEDEV TIME
+</footer>
+
+<script>
+function updateClock(){
+ const now=new Date();
+ const moscow=new Date(now.toLocaleString("en-US",{timeZone:"Europe/Moscow"}));
+ document.getElementById("clock").textContent=
+ "МОСКВА · "+moscow.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
 }
-
-.page {
-  max-width: 1160px;
-  margin: 24px auto;
-  background: var(--paper);
-  border: 5px solid var(--red);
-  min-height: 100vh;
-}
-
-header {
-  padding: 25px 42px 0;
-}
-
-.topline {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 13px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  color: #777;
-}
-
-.logo {
-  text-align: center;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(48px, 9vw, 100px);
-  font-weight: 600;
-  letter-spacing: -3px;
-  line-height: 1.15;
-  margin: 18px 0 4px;
-}
-
-.logo span {
-  color: var(--red);
-}
-
-.tagline {
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #777;
-  padding-bottom: 23px;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 26px;
-  border-top: 1px solid var(--line);
-  border-bottom: 2px solid var(--black);
-  padding: 15px 5px;
-}
-
-nav a {
-  color: var(--black);
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-nav a:hover {
-  color: var(--red);
-}
-
-main {
-  padding: 30px 42px;
-}
-
-.edition {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 13px;
-  color: var(--gray);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.hero {
-  padding: 48px 0 40px;
-  text-align: center;
-  border-bottom: 1px solid var(--line);
-}
-
-.kicker {
-  color: var(--red);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(34px, 6vw, 68px);
-  line-height: 1.12;
-  font-weight: 600;
-  letter-spacing: -1.5px;
-  max-width: 850px;
-  margin: 22px auto;
-}
-
-.lead {
-  font-family: 'Playfair Display', Georgia, serif;
-  color: #666;
-  font-size: 19px;
-  line-height: 1.65;
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.hero-image {
-  margin: 35px auto 0;
-  min-height: 320px;
-  max-width: 900px;
-  background:
-    linear-gradient(135deg, #252b35, #454b55, #171b22);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-  padding: 30px;
-  border: 1px solid #30343b;
-}
-
-.hero-image strong {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(25px, 5vw, 46px);
-  font-weight: 500;
-  letter-spacing: 2px;
-}
-
-.section-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 32px;
-  font-weight: 600;
-  text-align: center;
-  margin: 42px 0 28px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid var(--black);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 38px;
-}
-
-.article {
-  text-align: center;
-  padding: 27px 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.article .category {
-  color: var(--red);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.article h3 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 24px;
-  line-height: 1.3;
-  font-weight: 600;
-  margin: 13px 0;
-}
-
-.article p {
-  font-size: 14px;
-  color: #777;
-  line-height: 1.7;
-  max-width: 390px;
-  margin: 0 auto;
-}
-
-.archive {
-  margin-top: 42px;
-  padding: 30px;
-  background: #f7f6f4;
-  text-align: center;
-}
-
-.archive p {
-  color: #777;
-  line-height: 1.7;
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-footer {
-  background: var(--black);
-  color: white;
-  padding: 28px 38px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-}
-
-footer strong {
-  color: var(--red);
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 19px;
-}
-
-@media(max-width: 700px) {
-  .page {
-    margin: 0;
-    border-width: 4px;
-  }
-
-  header {
-    padding: 18px 15px 0;
-  }
-
-  main {
-    padding: 20px 16px;
-  }
-
-  .logo {
-    letter-spacing: -2px;
-  }
-
-  .topline {
-    font-size: 8px;
-    letter-spacing: 1px;
-  }
-
-  nav {
-    gap: 14px;
-  }
-
-  nav a {
-    font-size: 9px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-image {
-    min-height: 220px;
-  }
-
-  .section-title {
-    font-size: 27px;
-  }
-
-  footer {
-    justify-content: center;
-    text-align: center;
-    padding: 25px 15px;
-  }
-}
-
+updateClock();
+setInterval(updateClock,1000);
+document.getElementById("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
