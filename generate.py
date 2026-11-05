@@ -87,10 +87,22 @@ prompt = f"""
 {json.dumps(news, ensure_ascii=False)}
 """
 
-response = client.models.generate_content(
-    model="gemini-3.8-flash",
-    contents=prompt
-)
+import time
+
+response = None
+
+for attempt in range(5):
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=prompt
+        )
+        break
+    except Exception as error:
+        print(f"Попытка {attempt + 1} не удалась: {error}")
+        if attempt == 4:
+            raise
+        time.sleep(15 * (attempt + 1))
 
 content = response.text.strip()
 content = content.replace("```json", "").replace("```", "").strip()
