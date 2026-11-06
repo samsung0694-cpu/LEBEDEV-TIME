@@ -9,8 +9,10 @@ API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=API_KEY)
 
 FEEDS = [
-    "https://news.google.com/rss?hl=ru&gl=RU&ceid=RU:ru",
-    "https://rss.dw.com/rdf/rss-ru-all",
+    "https://www.interfax.ru/rss.asp",
+    "https://tass.ru/rss/v2.xml",
+    "https://lenta.ru/rss",
+    "https://www.kommersant.ru/RSS/main.xml",
 ]
 
 def collect_news():
