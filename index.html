@@ -1,4 +1,4 @@
-
+ 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,6 +8,7 @@
 <meta name="description" content="LEBEDEV TIME — журнал о мире, праве, обществе, экономике, технологиях и Калининграде.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -19,18 +20,18 @@
   --line:#dedbd5;
 }
 
-*{box-sizing:border-box}
+* { box-sizing:border-box; }
 
-body{
+body {
   margin:0;
   background:var(--paper);
   color:var(--black);
   font-family:'DM Sans',sans-serif;
 }
 
-a{color:inherit;text-decoration:none}
+a { color:inherit; text-decoration:none; }
 
-.topline{
+.topline {
   background:var(--black);
   color:white;
   padding:9px 5%;
@@ -40,12 +41,12 @@ a{color:inherit;text-decoration:none}
   letter-spacing:1px;
 }
 
-header{
+header {
   padding:24px 5% 16px;
   border-bottom:1px solid var(--line);
 }
 
-.brand{
+.brand {
   text-align:center;
   font-family:'Playfair Display',serif;
   font-size:clamp(38px,8vw,76px);
@@ -54,9 +55,9 @@ header{
   line-height:1;
 }
 
-.brand span{color:var(--red)}
+.brand span { color:var(--red); }
 
-.tagline{
+.tagline {
   text-align:center;
   margin-top:9px;
   font-size:10px;
@@ -65,7 +66,7 @@ header{
   color:var(--gray);
 }
 
-nav{
+nav {
   display:flex;
   justify-content:center;
   gap:22px;
@@ -77,15 +78,15 @@ nav{
   text-transform:uppercase;
 }
 
-nav a:hover{color:var(--red)}
+nav a:hover { color:var(--red); }
 
-.container{
+.container {
   max-width:1180px;
   margin:auto;
   padding:30px 22px;
 }
 
-.kicker{
+.kicker {
   font-size:11px;
   font-weight:800;
   letter-spacing:2px;
@@ -93,7 +94,7 @@ nav a:hover{color:var(--red)}
   color:var(--red);
 }
 
-.hero{
+.hero {
   display:grid;
   grid-template-columns:1.15fr .85fr;
   gap:35px;
@@ -102,7 +103,7 @@ nav a:hover{color:var(--red)}
   border-bottom:1px solid var(--line);
 }
 
-.hero h1{
+.hero h1 {
   font-family:'Playfair Display',serif;
   font-size:clamp(38px,6vw,68px);
   line-height:1.03;
@@ -110,28 +111,166 @@ nav a:hover{color:var(--red)}
   margin:15px 0;
 }
 
-.hero p{
+.hero p {
   font-size:16px;
   line-height:1.8;
   color:#555;
   max-width:550px;
 }
 
-.hero-image{
-  width:100%;
-  height:430px;
-  object-fit:cover;
-  object-position:center 25%;
-  filter:contrast(1.03);
-}
-
-.byline{
+.byline {
   font-size:11px;
   color:var(--gray);
   margin-top:20px;
 }
 
-.section-title{
+/* ФИНАНСОВАЯ ПАНЕЛЬ */
+
+.market-panel {
+  width:100%;
+  min-height:430px;
+  background:#171717;
+  color:white;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+  border-top:5px solid var(--red);
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+
+.market-panel-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.3px;
+}
+
+.market-live {
+  color:#69d58b;
+  white-space:nowrap;
+}
+
+.market-live i {
+  display:inline-block;
+  width:7px;
+  height:7px;
+  background:#69d58b;
+  border-radius:50%;
+  margin-right:5px;
+  animation:live-pulse 1.5s infinite;
+}
+
+@keyframes live-pulse {
+  50% { opacity:.35; }
+}
+
+.market-heading {
+  font-family:'Playfair Display',serif;
+  font-size:27px;
+  line-height:1.15;
+  margin:35px 0 0;
+}
+
+.market-description {
+  color:#999;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:9px;
+}
+
+.market-window {
+  overflow:hidden;
+  width:100%;
+  margin:28px 0;
+}
+
+.market-ticker-track {
+  display:flex;
+  width:max-content;
+  animation:market-scroll 38s linear infinite;
+}
+
+.market-ticker-track:hover {
+  animation-play-state:paused;
+}
+
+.market-ticker-set {
+  display:flex;
+  align-items:stretch;
+  gap:28px;
+  padding-right:28px;
+}
+
+.market-item {
+  min-width:155px;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  border-left:2px solid var(--red);
+  padding-left:12px;
+}
+
+.market-item-name {
+  font-size:10px;
+  color:#aaa;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.market-item strong {
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  color:white;
+  white-space:nowrap;
+}
+
+.market-item small {
+  font-size:10px;
+  color:#888;
+}
+
+.market-change {
+  font-size:10px;
+  font-weight:700;
+}
+
+.market-change.up { color:#69d58b; }
+.market-change.down { color:#ff7777; }
+
+@keyframes market-scroll {
+  from { transform:translateX(0); }
+  to { transform:translateX(-50%); }
+}
+
+.market-footer {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border-top:1px solid #444;
+  padding-top:14px;
+  color:#999;
+  font-size:9px;
+  letter-spacing:.7px;
+}
+
+.market-sources {
+  margin-top:12px;
+  font-size:9px;
+  line-height:1.6;
+  color:#777;
+}
+
+.market-sources a {
+  color:#aaa;
+  text-decoration:underline;
+}
+
+.section-title {
   font-family:'Playfair Display',serif;
   font-size:30px;
   margin:36px 0 20px;
@@ -139,23 +278,23 @@ nav a:hover{color:var(--red)}
   padding-bottom:10px;
 }
 
-/* КОМПАКТНЫЕ РУБРИКИ */
+/* РУБРИКИ */
 
-.topics-grid{
+.topics-grid {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:9px 14px;
   margin-top:20px;
 }
 
-.topic{
+.topic {
   border:1px solid var(--line);
   background:#fff;
   min-width:0;
   align-self:start;
 }
 
-.topic summary{
+.topic summary {
   list-style:none;
   cursor:pointer;
   display:flex;
@@ -169,57 +308,51 @@ nav a:hover{color:var(--red)}
   transition:.2s;
 }
 
-.topic summary::-webkit-details-marker{
+.topic summary::-webkit-details-marker {
   display:none;
 }
 
-.topic summary:hover{
-  color:var(--red);
-}
+.topic summary:hover { color:var(--red); }
 
-.topic summary span{
+.topic summary span {
   color:var(--red);
   font-family:'Playfair Display',serif;
   font-size:19px;
   font-weight:700;
 }
 
-.topic summary b{
+.topic summary b {
   margin-left:auto;
   color:var(--red);
   font-size:19px;
   font-weight:400;
 }
 
-.topic[open]{
+.topic[open] {
   border-color:var(--red);
   grid-column:1 / -1;
 }
 
-.topic[open] summary{
+.topic[open] summary {
   border-bottom:1px solid var(--line);
   background:#fff;
 }
 
-.topic[open] summary b{
+.topic[open] summary b {
   transform:rotate(45deg);
 }
 
-.topic-news{
+.topic-news {
   width:100%;
   max-width:100%;
   min-width:0;
   padding:5px 16px 12px;
   overflow:hidden;
-  box-sizing:border-box;
 }
 
-.topic-news:empty{
-  display:none;
-}
+.topic-news:empty { display:none; }
 
-
-.news-card{
+.news-card {
   display:block;
   width:100%;
   max-width:100%;
@@ -227,10 +360,9 @@ nav a:hover{color:var(--red)}
   padding:17px 0;
   border-bottom:1px solid var(--line);
   overflow:hidden;
-  box-sizing:border-box;
 }
 
-.news-image{
+.news-image {
   display:block;
   width:100%;
   max-width:100%;
@@ -239,15 +371,11 @@ nav a:hover{color:var(--red)}
   object-fit:cover;
   border-radius:8px;
   margin:0 0 16px;
-  box-sizing:border-box;
 }
 
+.news-card:last-child { border-bottom:none; }
 
-.news-card:last-child{
-  border-bottom:none;
-}
-
-.news-category{
+.news-category {
   font-size:10px;
   font-weight:800;
   letter-spacing:1.5px;
@@ -255,45 +383,83 @@ nav a:hover{color:var(--red)}
   text-transform:uppercase;
 }
 
-.news-card h3{
+.news-card h3 {
   font-family:'Playfair Display',serif;
   font-size:21px;
   line-height:1.3;
   margin:8px 0;
 }
 
-.news-card p{
+.news-card p {
   font-size:13px;
   line-height:1.7;
   color:#666;
   margin:8px 0;
 }
 
-.news-card a{
+.news-card a {
   color:var(--red);
   font-size:11px;
   font-weight:800;
 }
 
-.news-card a:hover{
-  text-decoration:underline;
-}
+.news-card a:hover { text-decoration:underline; }
 
-.news-empty{
+.news-empty {
   padding:16px 0;
   color:#777;
   font-size:13px;
 }
 
-#edition-date{
-  margin:14px 0 5px;
+#edition-date { margin:14px 0 5px; }
+#other-news { margin-top:25px; }
+
+/* ПОЛНЫЙ ТЕКСТ СТАТЬИ */
+
+.article-details { margin-top:14px; }
+
+.article-details summary {
+  display:inline-block;
+  cursor:pointer;
+  list-style:none;
+  color:var(--red);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:8px 0;
 }
 
-#other-news{
-  margin-top:25px;
+.article-details summary::-webkit-details-marker {
+  display:none;
 }
 
-.about{
+.article-details[open] summary { margin-bottom:10px; }
+
+.article-full {
+  font-size:14px;
+  line-height:1.8;
+  color:#333;
+  padding-top:8px;
+}
+
+.article-full p { margin:0 0 14px; }
+
+.article-source {
+  border-top:1px solid var(--line);
+  padding-top:12px;
+  font-size:11px;
+  color:var(--gray);
+}
+
+.article-source a {
+  color:var(--red);
+  font-weight:700;
+}
+
+/* О ПРОЕКТЕ */
+
+.about {
   margin-top:45px;
   background:#191919;
   color:white;
@@ -304,19 +470,19 @@ nav a:hover{color:var(--red)}
   align-items:center;
 }
 
-.about h2{
+.about h2 {
   font-family:'Playfair Display',serif;
   font-size:35px;
   margin:0;
 }
 
-.about p{
+.about p {
   font-size:14px;
   line-height:1.8;
   color:#ccc;
 }
 
-footer{
+footer {
   background:var(--black);
   color:#aaa;
   padding:25px 5%;
@@ -326,51 +492,52 @@ footer{
   margin-top:40px;
 }
 
-footer strong{color:white}
+footer strong { color:white; }
 
 /* МОБИЛЬНАЯ ВЕРСИЯ */
 
-@media(max-width:700px){
-
-  .topline{
+@media(max-width:700px) {
+  .topline {
     font-size:9px;
     padding:9px 12px;
   }
 
-  header{
-    padding:22px 10px 15px;
-  }
+  header { padding:22px 10px 15px; }
 
-  .brand{letter-spacing:-2px}
+  .brand { letter-spacing:-2px; }
 
-  nav{
+  nav {
     gap:13px;
     font-size:10px;
     padding:13px 8px;
   }
 
-  .container{
-    padding:22px 14px;
-  }
+  .container { padding:22px 14px; }
 
-  .hero{
+  .hero {
     grid-template-columns:1fr;
     gap:20px;
   }
 
-  .hero h1{font-size:43px}
+  .hero h1 { font-size:43px; }
 
-  .hero-image{
-    height:390px;
-    object-position:center 25%;
+  .market-panel {
+    min-height:300px;
+    padding:18px;
   }
 
-  .topics-grid{
+  .market-heading { font-size:24px; }
+
+  .market-item { min-width:135px; }
+
+  .market-item strong { font-size:19px; }
+
+  .topics-grid {
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:7px;
   }
 
-  .topic summary{
+  .topic summary {
     min-height:49px;
     padding:10px 8px;
     gap:6px;
@@ -378,76 +545,29 @@ footer strong{color:white}
     letter-spacing:.4px;
   }
 
-  .topic summary span{font-size:16px}
+  .topic summary span { font-size:16px; }
+  .topic summary b { font-size:16px; }
 
-  .topic summary b{font-size:16px}
+  .topic-news { padding:5px 11px 10px; }
 
-  .topic-news{padding:5px 11px 10px}
+  .topic[open] { grid-column:1 / -1; }
 
-  .topic[open]{
-    grid-column:1 / -1;
-  }
+  .news-card h3 { font-size:19px; }
 
-  .news-card h3{font-size:19px}
-
-  .about{
+  .about {
     grid-template-columns:1fr;
     padding:25px;
   }
 
-  .section-title{font-size:27px}
-}
-  .section-title{font-size:27px}
+  .section-title { font-size:27px; }
 }
 
-/* Оформление раскрывающейся статьи */
-.article-details {
-  margin-top: 14px;
+@media(prefers-reduced-motion:reduce) {
+  .market-ticker-track,
+  .market-live i {
+    animation:none;
+  }
 }
-
-.article-details summary {
-  display: inline-block;
-  cursor: pointer;
-  list-style: none;
-  color: var(--red);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 8px 0;
-}
-
-.article-details summary::-webkit-details-marker {
-  display: none;
-}
-
-.article-details[open] summary {
-  margin-bottom: 10px;
-}
-
-.article-full {
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--text);
-  padding-top: 8px;
-}
-
-.article-full p {
-  margin: 0 0 14px;
-}
-
-.article-source {
-  border-top: 1px solid var(--line);
-  padding-top: 12px;
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.article-source a {
-  color: var(--red);
-  font-weight: 700;
-}
-</style>
 </style>
 </head>
 
@@ -485,7 +605,39 @@ footer strong{color:white}
     <div class="byline">LEBEDEV TIME · ЛИЧНЫЙ РЕДАКЦИОННЫЙ ПРОЕКТ</div>
   </div>
 
-  <img class="hero-image" src="portrait.PNG" alt="Портрет основателя LEBEDEV TIME">
+  <div class="market-panel">
+    <div class="market-panel-head">
+      <span>LEBEDEV TIME · MARKET WATCH</span>
+      <span class="market-live"><i></i> LIVE</span>
+    </div>
+
+    <div>
+      <div class="market-heading">Мировые рынки</div>
+      <div class="market-description">
+        Криптовалюты · Драгоценные металлы · Валюты
+      </div>
+    </div>
+
+    <div class="market-window">
+      <div class="market-ticker-track" id="market-ticker-track">
+        <div class="market-ticker-set" id="market-ticker-set"></div>
+        <div class="market-ticker-set" id="market-ticker-copy" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="market-footer">
+        <span id="market-updated">Загрузка котировок...</span>
+        <span>MARKET DATA</span>
+      </div>
+      <div class="market-sources">
+        Источники:
+        <a href="https://www.binance.com/" target="_blank" rel="noopener">Binance</a> ·
+        <a href="https://xaus.com/api/" target="_blank" rel="noopener">XAUS</a> ·
+        <a href="https://www.exchangerate-api.com/" target="_blank" rel="noopener">Rates By Exchange Rate API</a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="categories">
@@ -559,10 +711,16 @@ footer strong{color:white}
 </footer>
 
 <script>
-function updateClock(){
+
+/* ЧАСЫ И ДАТА */
+
+function updateClock() {
   const now = new Date();
+
   const moscow = new Date(
-    now.toLocaleString("en-US", {timeZone:"Europe/Moscow"})
+    now.toLocaleString("en-US", {
+      timeZone:"Europe/Moscow"
+    })
   );
 
   document.getElementById("clock").textContent =
@@ -579,6 +737,7 @@ setInterval(updateClock, 1000);
 document.getElementById("year").textContent =
   new Date().getFullYear();
 
+
 /* РАСКРЫТИЕ ТОЛЬКО ОДНОЙ РУБРИКИ */
 
 document.querySelectorAll(".topic").forEach(topic => {
@@ -592,6 +751,265 @@ document.querySelectorAll(".topic").forEach(topic => {
     }
   });
 });
+
+
+/* ФИНАНСОВАЯ СТРОКА */
+
+const marketItems = [
+  {
+    key:"BTC",
+    name:"BITCOIN",
+    pair:"BTC / USDT",
+    unit:"USDT"
+  },
+  {
+    key:"ETH",
+    name:"ETHEREUM",
+    pair:"ETH / USDT",
+    unit:"USDT"
+  },
+  {
+    key:"GOLD",
+    name:"ЗОЛОТО",
+    pair:"XAU / USD · ТРОЙСКАЯ УНЦИЯ",
+    unit:"USD"
+  },
+  {
+    key:"SILVER",
+    name:"СЕРЕБРО",
+    pair:"XAG / USD · ТРОЙСКАЯ УНЦИЯ",
+    unit:"USD"
+  },
+  {
+    key:"USD",
+    name:"ДОЛЛАР США",
+    pair:"USD / RUB",
+    unit:"RUB"
+  },
+  {
+    key:"EUR",
+    name:"ЕВРО",
+    pair:"EUR / RUB",
+    unit:"RUB"
+  }
+];
+
+const marketValues = {
+  BTC:null,
+  ETH:null,
+  GOLD:null,
+  SILVER:null,
+  USD:null,
+  EUR:null
+};
+
+const marketChanges = {
+  BTC:null,
+  ETH:null
+};
+
+function formatMarketPrice(value, key) {
+  if (!Number.isFinite(Number(value))) {
+    return "Нет данных";
+  }
+
+  const digits =
+    key === "USD" || key === "EUR" ? 2 : 2;
+
+  const formatted = new Intl.NumberFormat("ru-RU", {
+    minimumFractionDigits:digits,
+    maximumFractionDigits:digits
+  }).format(value);
+
+  if (key === "BTC" || key === "ETH") {
+    return formatted + " USDT";
+  }
+
+  if (key === "GOLD" || key === "SILVER") {
+    return "$" + formatted;
+  }
+
+  return formatted + " ₽";
+}
+
+function createMarketCards() {
+  return marketItems.map(item => {
+    const value = marketValues[item.key];
+    const price = value === null
+      ? "Загрузка..."
+      : formatMarketPrice(value, item.key);
+
+    let changeHTML = "";
+
+    if (
+      (item.key === "BTC" || item.key === "ETH") &&
+      marketChanges[item.key] !== null
+    ) {
+      const change = marketChanges[item.key];
+      const direction = change >= 0 ? "up" : "down";
+      const sign = change > 0 ? "+" : "";
+
+      changeHTML = `
+        <div class="market-change ${direction}">
+          ${sign}${change.toFixed(2)}% за 24 ч.
+        </div>
+      `;
+    }
+
+    return `
+      <div class="market-item">
+        <span class="market-item-name">${item.name}</span>
+        <strong>${price}</strong>
+        <small>${item.pair}</small>
+        ${changeHTML}
+      </div>
+    `;
+  }).join("");
+}
+
+function renderMarketTicker() {
+  const html = createMarketCards();
+
+  document.getElementById("market-ticker-set").innerHTML = html;
+  document.getElementById("market-ticker-copy").innerHTML = html;
+}
+
+function updateMarketStatus(text) {
+  document.getElementById("market-updated").textContent = text;
+}
+
+function formatUpdateTime() {
+  return new Date().toLocaleTimeString("ru-RU", {
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit"
+  });
+}
+
+async function fetchMarketJSON(url) {
+  const response = await fetch(url, {
+    cache:"no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error("Ошибка загрузки: " + response.status);
+  }
+
+  return await response.json();
+}
+
+
+/* BITCOIN И ETHEREUM — BINANCE */
+
+async function loadCryptoPrices() {
+  try {
+    const url =
+      "https://data-api.binance.vision/api/v3/ticker/24hr" +
+      "?symbols=%5B%22BTCUSDT%22,%22ETHUSDT%22%5D";
+
+    const data = await fetchMarketJSON(url);
+
+    data.forEach(item => {
+      if (item.symbol === "BTCUSDT") {
+        marketValues.BTC = Number(item.lastPrice);
+        marketChanges.BTC = Number(item.priceChangePercent);
+      }
+
+      if (item.symbol === "ETHUSDT") {
+        marketValues.ETH = Number(item.lastPrice);
+        marketChanges.ETH = Number(item.priceChangePercent);
+      }
+    });
+
+    renderMarketTicker();
+    updateMarketStatus("Криптовалюты обновлены · " + formatUpdateTime());
+
+  } catch (error) {
+    console.error("Ошибка криптовалют:", error);
+  }
+}
+
+
+/* ЗОЛОТО И СЕРЕБРО — XAUS */
+
+async function loadMetalPrices() {
+  try {
+    const data = await fetchMarketJSON(
+      "https://xaus.com/api/v1/spot"
+    );
+
+    if (Number.isFinite(Number(data.spot_usd_oz))) {
+      marketValues.GOLD = Number(data.spot_usd_oz);
+    }
+
+    if (Number.isFinite(Number(data.silver_usd_oz))) {
+      marketValues.SILVER = Number(data.silver_usd_oz);
+    }
+
+    renderMarketTicker();
+    updateMarketStatus("Котировки обновлены · " + formatUpdateTime());
+
+  } catch (error) {
+    console.error("Ошибка металлов:", error);
+  }
+}
+
+
+/* ДОЛЛАР И ЕВРО — КУРС К РУБЛЮ */
+
+async function loadCurrencyRates() {
+  try {
+    const data = await fetchMarketJSON(
+      "https://open.er-api.com/v6/latest/USD"
+    );
+
+    if (
+      data.result !== "success" ||
+      !data.rates ||
+      !data.rates.RUB ||
+      !data.rates.EUR
+    ) {
+      throw new Error("Нет необходимых валютных курсов");
+    }
+
+    const usdRub = Number(data.rates.RUB);
+    const eurUsd = Number(data.rates.EUR);
+
+    marketValues.USD = usdRub;
+    marketValues.EUR = usdRub / eurUsd;
+
+    renderMarketTicker();
+
+    updateMarketStatus(
+      "Валюты: данные на " +
+      (data.time_last_update_utc || "последнее обновление")
+    );
+
+  } catch (error) {
+    console.error("Ошибка валютных курсов:", error);
+  }
+}
+
+
+/* ЗАПУСК И АВТООБНОВЛЕНИЕ */
+
+renderMarketTicker();
+
+loadCryptoPrices();
+loadMetalPrices();
+loadCurrencyRates();
+
+/* Криптовалюты и металлы — примерно раз в минуту */
+
+setInterval(() => {
+  loadCryptoPrices();
+  loadMetalPrices();
+}, 60000);
+
+/* Валютные курсы — раз в 12 часов */
+
+setInterval(loadCurrencyRates, 12 * 60 * 60 * 1000);
+
 
 /* ЗАГРУЗКА НОВОСТЕЙ */
 
@@ -608,7 +1026,11 @@ function escapeHTML(value) {
 function safeURL(value) {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" ? escapeHTML(url.href) : "#";
+
+    return url.protocol === "https:"
+      ? escapeHTML(url.href)
+      : "#";
+
   } catch {
     return "#";
   }
@@ -633,19 +1055,33 @@ function getCategoryKey(category) {
     return "society";
   }
 
-  if (value.includes("эконом") || value.includes("финанс") || value.includes("бизнес")) {
+  if (
+    value.includes("эконом") ||
+    value.includes("финанс") ||
+    value.includes("бизнес")
+  ) {
     return "economy";
   }
 
-  if (value.includes("технолог") || value.includes("наук")) {
+  if (
+    value.includes("технолог") ||
+    value.includes("наук")
+  ) {
     return "technology";
   }
 
-  if (value.includes("психолог") || value.includes("поведен")) {
+  if (
+    value.includes("психолог") ||
+    value.includes("поведен")
+  ) {
     return "mind";
   }
 
-  if (value.includes("необыч") || value.includes("загад") || value.includes("истор")) {
+  if (
+    value.includes("необыч") ||
+    value.includes("загад") ||
+    value.includes("истор")
+  ) {
     return "stories";
   }
 
@@ -665,6 +1101,7 @@ function createNewsCard(article) {
 
   return `
     <article class="news-card">
+
       ${imageURL && imageURL !== "#" ? `
         <img
           class="news-image"
@@ -680,6 +1117,7 @@ function createNewsCard(article) {
       </div>
 
       <h3>${escapeHTML(article.title || "")}</h3>
+
       <p>${escapeHTML(article.summary || "")}</p>
 
       <details class="article-details">
@@ -698,6 +1136,7 @@ function createNewsCard(article) {
           ` : ""}
         </div>
       </details>
+
     </article>
   `;
 }
@@ -707,7 +1146,9 @@ async function loadEdition() {
   const dateElement = document.getElementById("edition-date");
 
   try {
-    const response = await fetch("data/edition.json?t=" + Date.now());
+    const response = await fetch(
+      "data/edition.json?t=" + Date.now()
+    );
 
     if (!response.ok) {
       throw new Error("Выпуск пока недоступен");
@@ -715,19 +1156,20 @@ async function loadEdition() {
 
     const edition = await response.json();
 
-    dateElement.textContent = "ВЫПУСК ОТ " + edition.date;
+    dateElement.textContent =
+      "ВЫПУСК ОТ " + edition.date;
 
     const articles = edition.articles || [];
 
     const groups = {
-      politics: [],
-      law: [],
-      society: [],
-      economy: [],
-      technology: [],
-      mind: [],
-      stories: [],
-      kaliningrad: []
+      politics:[],
+      law:[],
+      society:[],
+      economy:[],
+      technology:[],
+      mind:[],
+      stories:[],
+      kaliningrad:[]
     };
 
     const otherArticles = [];
@@ -750,25 +1192,21 @@ async function loadEdition() {
         container.innerHTML =
           '<div class="news-empty">В этом выпуске пока нет материалов этой рубрики.</div>';
       } else {
-        container.innerHTML = group.map(createNewsCard).join("");
+        container.innerHTML =
+          group.map(createNewsCard).join("");
       }
     });
-    Object.keys(groups).forEach(category => {
-      const container = document.querySelector(
-        `.topic-news[data-category="${category}"]`
-      );
 
-      if (container) {
-        container.innerHTML = groups[category]
-          .map(createNewsCard)
-          .join("");
-      }
-    });
+    const otherSection = document.getElementById("other-news");
+
     if (otherArticles.length > 0) {
-      document.getElementById("other-news").hidden = false;
+      otherSection.hidden = false;
 
       document.getElementById("other-news-container").innerHTML =
         otherArticles.map(createNewsCard).join("");
+    } else {
+      otherSection.hidden = true;
+      document.getElementById("other-news-container").innerHTML = "";
     }
 
   } catch (error) {
@@ -784,8 +1222,8 @@ async function loadEdition() {
 }
 
 loadEdition();
+
 </script>
 
 </body>
 </html>
-
