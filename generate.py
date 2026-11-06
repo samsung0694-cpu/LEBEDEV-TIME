@@ -762,6 +762,103 @@ def find_nasa_video(space_article):
         print("Ошибка поиска видео NASA:", error)
         return {}
 
+def generate_space_article():
+    """
+    Создаёт ежедневную научно-популярную статью о космосе.
+    """
+
+    prompt = """
+Ты — научный редактор рубрики «КОСМОС БЕЗ ГРАНИЦ»
+электронного журнала LEBEDEV TIME.
+
+Создай одну интересную научно-популярную статью о космосе.
+
+Выбери тему самостоятельно. Чередуй темы:
+- звёзды и галактики;
+- чёрные дыры;
+- планеты и экзопланеты;
+- масштабы и расстояния Вселенной;
+- жизнь человека в космосе;
+- поиск внеземной жизни;
+- происхождение и устройство Вселенной;
+- космические исследования.
+
+Требования:
+1. Заголовок должен вызывать интерес.
+2. Анонс — 2–3 предложения.
+3. Основной текст — 5–7 содержательных абзацев.
+4. Объём — ориентировочно 400–600 слов.
+5. Используй научно достоверные сведения.
+6. Не выдумывай открытия, цифры и факты.
+7. Отделяй подтверждённые факты от научных гипотез.
+8. Пиши доступно, интересно и увлекательно.
+9. Не используй вымышленные цитаты.
+10. Подготовь английский поисковый запрос для NASA,
+чтобы найти подходящую космическую видеовизуализацию.
+
+Верни только корректный JSON:
+
+{
+  "title": "Заголовок статьи",
+  "summary": "Краткий анонс",
+  "body": "Полный текст статьи",
+  "topic": "Тема статьи",
+  "nasa_search": "English search keywords"
+}
+"""
+
+    try:
+        response = client.models.generate_content(
+            model=MODEL,
+            contents=prompt
+        )
+
+        if not response or not response.text:
+            raise RuntimeError("Gemini не создал космическую статью")
+
+        content = response.text.strip()
+
+        if content.startswith("```"):
+            content = content.replace("```json", "", 1)
+            content = content.replace("```", "").strip()
+
+        start = content.find("{")
+        end = content.rfind("}")
+
+        if start == -1 or end == -1:
+            raise RuntimeError("Некорректный JSON космической статьи")
+
+        article = json.loads(content[start:end + 1])
+
+        required_fields = [
+            "title",
+            "summary",
+            "body",
+            "topic",
+            "nasa_search"
+        ]
+
+        for field in required_fields:
+            if not article.get(field):
+                raise RuntimeError(
+                    f"В космической статье отсутствует поле: {field}"
+                )
+
+        article["title"] = str(article["title"])[:250]
+        article["summary"] = str(article["summary"])[:1500]
+        article["body"] = str(article["body"])[:15000]
+        article["topic"] = str(article["topic"])[:200]
+        article["nasa_search"] = str(article["nasa_search"])[:300]
+
+        print("Космическая статья подготовлена:")
+        print(article["title"])
+
+        return article
+
+    except Exception as error:
+        print("Ошибка генерации космической статьи:", error)
+        return None
+
 def main():
     news = collect_news()
 
