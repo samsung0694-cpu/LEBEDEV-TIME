@@ -868,7 +868,26 @@ def main():
         )
 
     edition = generate_edition(news)
+    print("Подготовка рубрики КОСМОС БЕЗ ГРАНИЦ...")
 
+    space_article = generate_space_article()
+
+    if space_article:
+        nasa_video = find_nasa_video(space_article)
+
+        space_article.update(nasa_video)
+
+        edition["space_article"] = space_article
+
+        print("Космическая статья добавлена в выпуск")
+
+        if space_article.get("video"):
+            print("Космическое видео NASA найдено")
+        else:
+            print("Видео NASA не найдено — статья сохранена без видео")
+
+    else:
+        edition["space_article"] = None
     moscow_time = datetime.now(
         timezone(timedelta(hours=3))
     )
