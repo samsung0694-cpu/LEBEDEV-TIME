@@ -1,474 +1,766 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<title>LEBEDEV TIME — Время понимать главное</title>
+<meta name="description" content="LEBEDEV TIME — журнал о главных событиях, праве, обществе, экономике, технологиях и жизни Калининграда.">
+
 <style>
-/* LEBEDEV TIME — NEWS */
+:root {
+  --black:#111;
+  --red:#c8102e;
+  --paper:#fff;
+  --soft:#f4f4f2;
+  --line:#dededb;
+  --muted:#777;
+  --serif:Georgia,"Times New Roman",serif;
+  --sans:Arial,Helvetica,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--black);
+  font-family:var(--sans);line-height:1.5;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.container{width:min(1240px,calc(100% - 40px));margin:auto}
 
-.latest-news-section { margin: 35px 0; }
-
-.latest-news-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:3px solid #111;
-  padding-bottom:12px;
-  margin-bottom:18px;
+/* ШАПКА */
+.topline{
+  border-bottom:1px solid var(--line);
+  color:var(--muted);font-size:11px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:9px 0;
+}
+.topline .container{display:flex;justify-content:space-between;gap:15px}
+.masthead{
+  text-align:center;padding:22px 0 18px;
+  border-bottom:4px solid var(--black);
+}
+.brand{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(42px,8vw,76px);
+  letter-spacing:-4px;line-height:1;
+}
+.brand span{color:var(--red)}
+.tagline{
+  margin-top:8px;font-size:11px;letter-spacing:4px;
+  text-transform:uppercase;color:#555;
+}
+.edition-line{
+  margin-top:13px;font-size:10px;color:var(--muted);
+  letter-spacing:1.5px;text-transform:uppercase;
 }
 
-.latest-news-header h2 {
-  margin:0;
-  font-size:32px;
-  font-weight:900;
-  letter-spacing:-1px;
+/* МЕНЮ */
+.nav-wrap{border-bottom:1px solid var(--line);background:#fff}
+.nav{
+  display:flex;justify-content:center;align-items:center;
+  flex-wrap:wrap;gap:0;
+}
+.nav a{
+  display:block;padding:14px 13px;font-size:11px;
+  font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  transition:.2s;
+}
+.nav a:hover{color:var(--red)}
+
+/* MARKET WATCH */
+.market{
+  background:#111;color:#fff;overflow:hidden;
+  border-bottom:3px solid var(--red);
+}
+.market-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 0 7px;
+}
+.market-title{font-size:10px;font-weight:800;letter-spacing:2px;color:#fff}
+.market-status{font-size:9px;color:#aaa;letter-spacing:1px}
+.market-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  border-top:1px solid #393939;
+}
+.market-item{padding:12px 10px;border-right:1px solid #393939}
+.market-item:last-child{border-right:0}
+.market-name{font-size:9px;letter-spacing:1.4px;color:#aaa;text-transform:uppercase}
+.market-value{font-family:var(--serif);font-size:20px;font-weight:700;margin-top:3px}
+.market-note{font-size:9px;color:#aaa;margin-top:1px}
+
+/* ОСНОВНОЙ ЗАГОЛОВОК */
+.section-kicker{
+  color:var(--red);font-size:10px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;
+}
+.page-intro{
+  display:flex;justify-content:space-between;align-items:end;
+  padding:30px 0 16px;border-bottom:2px solid var(--black);
+}
+.page-intro h1{
+  font-family:var(--serif);font-size:clamp(28px,4vw,42px);
+  line-height:1.05;margin:5px 0 0;letter-spacing:-1px;
+}
+.page-intro p{font-size:11px;color:var(--muted);margin:0}
+
+/* НОВОСТНОЙ БЛОК */
+.latest-news-section{padding-bottom:35px}
+.latest-news-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:17px 0 12px;border-bottom:1px solid var(--line);
+}
+.latest-news-header h2{
+  font-family:var(--serif);font-size:23px;margin:0;
+}
+.latest-news-header span{
+  color:var(--muted);font-size:10px;letter-spacing:1px;
+}
+.latest-news-layout{
+  display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);
+  gap:30px;padding-top:20px;
+}
+.news-list{min-width:0}
+.news-card{
+  display:grid;grid-template-columns:125px minmax(0,1fr);
+  gap:17px;padding:15px 0;border-bottom:1px solid var(--line);
+  cursor:pointer;transition:background .2s;
+}
+.news-card:first-child{padding-top:0}
+.news-card:hover .news-title{color:var(--red)}
+.news-thumb{
+  width:125px;height:91px;object-fit:cover;
+  background:var(--soft);
+}
+.news-category{
+  color:var(--red);font-size:9px;font-weight:800;
+  letter-spacing:1.4px;text-transform:uppercase;
+}
+.news-title{
+  font-family:var(--serif);font-size:19px;line-height:1.2;
+  font-weight:700;margin:5px 0;transition:.2s;
+}
+.news-summary{
+  color:#555;font-size:12px;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;
+}
+.news-meta{font-size:9px;color:#999;margin-top:7px}
+
+/* ПРАВАЯ КОЛОНКА */
+.featured-column{border-left:1px solid var(--line);padding-left:22px}
+.column-heading{
+  font-size:10px;font-weight:800;letter-spacing:2px;
+  border-bottom:2px solid var(--black);padding-bottom:9px;
+  margin-bottom:13px;
+}
+.feature-card{margin-bottom:22px;cursor:pointer}
+.feature-image{
+  width:100%;aspect-ratio:16/9;object-fit:cover;
+  background:var(--soft);display:block;
+}
+.feature-card .news-title{font-size:21px}
+.feature-card:hover .news-title{color:var(--red)}
+.feature-card .news-summary{margin-top:7px}
+.feature-points{
+  padding-left:17px;margin:9px 0 0;color:#555;font-size:11px;
+}
+.feature-points li{margin:4px 0}
+.feature-label{
+  display:inline-block;background:var(--red);color:white;
+  font-size:8px;font-weight:800;letter-spacing:1px;
+  padding:4px 7px;margin:10px 0 0;text-transform:uppercase;
+}
+.loading,.empty-state{
+  padding:30px 10px;color:var(--muted);font-size:13px;
+  text-align:center;
 }
 
-.news-edition-date {
-  font-size:10px;
-  color:#888;
-  text-transform:uppercase;
-  letter-spacing:1px;
+/* РУБРИКИ */
+.topics-section{padding:28px 0 45px;border-top:3px solid var(--black)}
+.topics-heading{
+  display:flex;justify-content:space-between;align-items:end;
+  margin-bottom:15px;
 }
-
-.latest-news-layout {
-  display:grid;
-  grid-template-columns:minmax(0,1.05fr) minmax(250px,.95fr);
-  gap:24px;
+.topics-heading h2{
+  font-family:var(--serif);font-size:30px;margin:0;
 }
-
-.news-list-column {
-  min-width:0;
-  padding-right:20px;
-  border-right:1px solid #ddd;
+.topics-heading p{font-size:10px;color:var(--muted);margin:0}
+.topic-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:8px;
 }
-
-.news-column-label {
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1.5px;
-  color:#888;
-  text-transform:uppercase;
-  margin-bottom:10px;
+.topic{
+  border:1px solid var(--line);background:#fff;
 }
-
-.news-list-item {
-  padding:13px 0;
-  border-bottom:1px solid #e5e5e5;
+.topic summary{
+  list-style:none;cursor:pointer;padding:13px 14px;
+  font-size:11px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;display:flex;justify-content:space-between;
+}
+.topic summary::-webkit-details-marker{display:none}
+.topic summary::after{content:"+";color:var(--red);font-size:17px;line-height:12px}
+.topic[open] summary::after{content:"−"}
+.topic-content{padding:0 14px 12px}
+.topic-link{
+  display:block;border-top:1px solid var(--line);
+  padding:9px 0;font-family:var(--serif);font-size:13px;
   cursor:pointer;
 }
+.topic-link:hover{color:var(--red)}
 
-.news-list-item:hover .news-list-title,
-.news-feature-card:hover .news-feature-title {
-  color:#a61920;
+/* НИЖНИЕ БЛОКИ */
+.editorial-note{
+  background:#f3f3f1;padding:25px;margin:15px 0 35px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+}
+.editorial-note strong{
+  font-family:var(--serif);font-size:23px;display:block;
+}
+.editorial-note p{font-size:12px;color:#666;margin:5px 0 0}
+.editorial-mark{
+  font-family:var(--serif);font-weight:900;font-size:38px;color:var(--red);
 }
 
-.news-list-meta {
-  font-size:10px;
-  color:#888;
-  text-transform:uppercase;
-  margin-bottom:5px;
+/* МОДАЛЬНОЕ ОКНО */
+.modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.78);
+  z-index:1000;display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal.open{display:flex}
+.modal-dialog{
+  background:#fff;width:min(760px,100%);max-height:90vh;
+  overflow:auto;position:relative;
+}
+.modal-close{
+  position:sticky;top:0;float:right;z-index:2;
+  border:0;background:#111;color:white;width:40px;height:40px;
+  font-size:25px;cursor:pointer;
+}
+.modal-inner{padding:25px 35px 35px}
+.modal-category{
+  color:var(--red);font-size:10px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;
+}
+.modal-title{
+  font-family:var(--serif);font-size:clamp(27px,5vw,40px);
+  line-height:1.12;margin:10px 0 12px;
+}
+.modal-meta{font-size:11px;color:#888;margin-bottom:18px}
+.modal-image{
+  width:100%;max-height:390px;object-fit:cover;
+  margin-bottom:20px;background:var(--soft);
+}
+.modal-body{font-family:var(--serif);font-size:17px;line-height:1.75}
+.modal-body p{margin:0 0 16px}
+.source-link{
+  display:inline-block;margin-top:20px;color:var(--red);
+  font-size:11px;font-weight:800;text-transform:uppercase;
+  letter-spacing:1px;border-bottom:1px solid var(--red);padding-bottom:3px;
 }
 
-.news-list-title {
-  font-size:15px;
-  font-weight:850;
-  line-height:1.3;
-  margin:0 0 5px;
+/* ПОДВАЛ */
+.footer{background:#111;color:#fff;padding:30px 0}
+.footer-top{display:flex;justify-content:space-between;gap:20px;align-items:center}
+.footer-brand{font-family:var(--serif);font-size:32px;font-weight:900}
+.footer-brand span{color:var(--red)}
+.footer-tagline{font-size:10px;color:#aaa;letter-spacing:2px}
+.footer-bottom{
+  border-top:1px solid #393939;margin-top:20px;padding-top:13px;
+  display:flex;justify-content:space-between;gap:15px;
+  color:#999;font-size:9px;letter-spacing:1px;
 }
 
-.news-list-summary {
-  font-size:12px;
-  line-height:1.45;
-  color:#777;
-  margin:0;
+/* АДАПТИВНОСТЬ */
+@media(max-width:800px){
+  .latest-news-layout{grid-template-columns:1fr;gap:25px}
+  .featured-column{border-left:0;border-top:2px solid var(--black);padding:18px 0 0}
+  .market-grid{grid-template-columns:repeat(3,1fr)}
+  .market-item:nth-child(3){border-right:0}
+  .market-item:nth-child(-n+3){border-bottom:1px solid #393939}
+  .topic-grid{grid-template-columns:repeat(2,1fr)}
 }
-
-.news-feature-card {
-  margin-bottom:22px;
-  cursor:pointer;
-}
-
-.news-feature-image {
-  display:block;
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  margin-bottom:9px;
-  background:#eee;
-}
-
-.news-feature-tag {
-  color:#a61920;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-
-.news-feature-title {
-  font-size:19px;
-  font-weight:900;
-  line-height:1.2;
-  margin:6px 0;
-}
-
-.news-feature-summary {
-  font-size:12px;
-  line-height:1.5;
-  color:#666;
-}
-
-.news-feature-bullets {
-  padding-left:17px;
-  font-size:12px;
-  line-height:1.5;
-}
-
-.news-breaking-label {
-  display:inline-block;
-  background:#a61920;
-  color:#fff;
-  padding:4px 7px;
-  font-size:9px;
-  font-weight:900;
-  margin-bottom:7px;
-}
-
-.news-empty {
-  padding:20px 0;
-  color:#888;
-  font-size:13px;
-}
-
-/* NEWS MODAL */
-
-.news-modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-}
-
-.news-modal.is-open { display:flex; }
-
-.news-modal-backdrop {
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(4px);
-}
-
-.news-modal-dialog {
-  position:relative;
-  z-index:2;
-  width:min(760px,100%);
-  max-height:90vh;
-  overflow-y:auto;
-  background:#fff;
-  color:#171717;
-  padding:27px;
-  border-radius:4px;
-  box-shadow:0 20px 80px rgba(0,0,0,.3);
-}
-
-.news-modal-close {
-  position:sticky;
-  float:right;
-  top:0;
-  width:36px;
-  height:36px;
-  border:0;
-  border-radius:50%;
-  background:#171717;
-  color:#fff;
-  font-size:25px;
-  cursor:pointer;
-  margin:-12px -12px 8px 10px;
-}
-
-.news-modal-category {
-  color:#a61920;
-  font-size:11px;
-  font-weight:900;
-  text-transform:uppercase;
-}
-
-.news-modal-title {
-  font-size:30px;
-  line-height:1.15;
-  margin:10px 0;
-}
-
-.news-modal-image {
-  width:100%;
-  max-height:340px;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  margin:12px 0;
-}
-
-.news-modal-text {
-  font-size:15px;
-  line-height:1.7;
-  color:#444;
-  white-space:pre-line;
-}
-
-.news-modal-source {
-  display:inline-block;
-  margin-top:18px;
-  padding:11px 15px;
-  background:#171717;
-  color:white!important;
-  text-decoration:none!important;
-  font-size:11px;
-  font-weight:800;
-}
-
-body.news-modal-open { overflow:hidden; }
-
-@media(max-width:700px) {
-  .latest-news-layout { grid-template-columns:1fr; }
-  .news-list-column {
-    border-right:0;
-    padding-right:0;
-  }
-  .news-feature-column {
-    border-top:2px solid #111;
-    padding-top:18px;
-  }
-  .news-modal-dialog {
-    padding:18px;
-    max-height:94vh;
-  }
-  .news-modal-title { font-size:24px; }
+@media(max-width:520px){
+  .container{width:calc(100% - 26px)}
+  .topline .container{font-size:9px}
+  .brand{letter-spacing:-2px}
+  .tagline{letter-spacing:2px;font-size:9px}
+  .nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}
+  .nav a{white-space:nowrap;padding:12px 10px;font-size:10px}
+  .market-value{font-size:17px}
+  .page-intro{align-items:start;flex-direction:column;gap:8px}
+  .news-card{grid-template-columns:95px minmax(0,1fr);gap:12px}
+  .news-thumb{width:95px;height:78px}
+  .news-title{font-size:17px}
+  .news-summary{font-size:11px}
+  .topic-grid{grid-template-columns:1fr}
+  .modal{padding:8px}
+  .modal-inner{padding:20px 18px 25px}
+  .modal-body{font-size:16px}
+  .editorial-note{padding:17px}
+  .editorial-mark{font-size:28px}
+  .footer-top,.footer-bottom{align-items:flex-start;flex-direction:column}
 }
 </style>
+</head>
 
-<section id="latest-news" class="latest-news-section">
+<body>
 
-  <div class="latest-news-header">
-    <h2>НОВОСТИ</h2>
-    <div class="news-edition-date" id="edition-date">
-      Загрузка выпуска...
-    </div>
+<div class="topline">
+  <div class="container">
+    <span>Независимый взгляд на события</span>
+    <span id="today-date">LEBEDEV TIME · 2026</span>
   </div>
+</div>
 
-  <div class="latest-news-layout">
+<header class="masthead">
+  <div class="container">
+    <a href="#" class="brand">LEBEDEV <span>TIME</span></a>
+    <div class="tagline">Время понимать главное</div>
+    <div class="edition-line">Журнал о событиях, людях и смыслах</div>
+  </div>
+</header>
 
-    <div class="news-list-column">
-      <div class="news-column-label">Последние события</div>
-      <div id="news-list">
-        <div class="news-empty">Загружаем новости...</div>
+<div class="nav-wrap">
+  <nav class="nav container">
+    <a href="#latest">Главное</a>
+    <a href="#politics">Мир</a>
+    <a href="#law">Право</a>
+    <a href="#society">Общество</a>
+    <a href="#economy">Экономика</a>
+    <a href="#technology">Технологии</a>
+    <a href="#mind">Психология</a>
+    <a href="#stories">Истории</a>
+    <a href="#kaliningrad">Калининград</a>
+  </nav>
+</div>
+
+<section class="market">
+  <div class="container">
+    <div class="market-head">
+      <div class="market-title">MARKET WATCH</div>
+      <div class="market-status" id="market-status">РЫНОЧНЫЕ ДАННЫЕ</div>
+    </div>
+    <div class="market-grid">
+      <div class="market-item">
+        <div class="market-name">Bitcoin</div>
+        <div class="market-value" id="btc-value">—</div>
+        <div class="market-note">BTC / USD</div>
+      </div>
+      <div class="market-item">
+        <div class="market-name">Ethereum</div>
+        <div class="market-value" id="eth-value">—</div>
+        <div class="market-note">ETH / USD</div>
+      </div>
+      <div class="market-item">
+        <div class="market-name">Золото</div>
+        <div class="market-value" id="gold-value">—</div>
+        <div class="market-note">USD / тройская унция</div>
+      </div>
+      <div class="market-item">
+        <div class="market-name">Серебро</div>
+        <div class="market-value" id="silver-value">—</div>
+        <div class="market-note">USD / тройская унция</div>
+      </div>
+      <div class="market-item">
+        <div class="market-name">Доллар</div>
+        <div class="market-value" id="usd-value">—</div>
+        <div class="market-note">USD / RUB</div>
+      </div>
+      <div class="market-item">
+        <div class="market-name">Евро</div>
+        <div class="market-value" id="eur-value">—</div>
+        <div class="market-note">EUR / RUB</div>
       </div>
     </div>
-
-    <div class="news-feature-column">
-      <div class="news-column-label">Главное сегодня</div>
-      <div id="featured-news">
-        <div class="news-empty">Загружаем главные материалы...</div>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<div class="news-modal" id="news-modal" aria-hidden="true">
-  <div class="news-modal-backdrop"></div>
-  <div class="news-modal-dialog" role="dialog" aria-modal="true">
-    <button class="news-modal-close" type="button"
-      aria-label="Закрыть">&times;</button>
-    <div id="news-modal-content"></div>
+<main class="container">
+  <section class="page-intro" id="latest">
+    <div>
+      <div class="section-kicker">LEBEDEV TIME · РЕДАКЦИЯ</div>
+      <h1>В центре событий</h1>
+    </div>
+    <p>Факты. Контекст. Анализ.</p>
+  </section>
+
+  <section class="latest-news-section">
+    <div class="latest-news-header">
+      <h2>Последние новости</h2>
+      <span id="edition-date">ЗАГРУЗКА ВЫПУСКА</span>
+    </div>
+
+    <div class="latest-news-layout">
+      <div class="news-list" id="news-list">
+        <div class="loading">Загружаем редакционный выпуск…</div>
+      </div>
+      <aside class="featured-column">
+        <div class="column-heading">ГЛАВНОЕ · В ФОКУСЕ</div>
+        <div id="featured-news">
+          <div class="loading">Загружаем материалы…</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="topics-section">
+    <div class="topics-heading">
+      <div>
+        <div class="section-kicker">НАВИГАЦИЯ ПО ЖУРНАЛУ</div>
+        <h2>Новости и темы</h2>
+      </div>
+      <p>ВЫБЕРИТЕ РУБРИКУ</p>
+    </div>
+    <div class="topic-grid" id="topic-grid">
+      <details class="topic" id="politics">
+        <summary>Мир и политика</summary>
+        <div class="topic-content" data-topic="politics"></div>
+      </details>
+      <details class="topic" id="law">
+        <summary>Право и закон</summary>
+        <div class="topic-content" data-topic="law"></div>
+      </details>
+      <details class="topic" id="society">
+        <summary>Общество</summary>
+        <div class="topic-content" data-topic="society"></div>
+      </details>
+      <details class="topic" id="economy">
+        <summary>Экономика</summary>
+        <div class="topic-content" data-topic="economy"></div>
+      </details>
+      <details class="topic" id="technology">
+        <summary>Технологии</summary>
+        <div class="topic-content" data-topic="technology"></div>
+      </details>
+      <details class="topic" id="mind">
+        <summary>Психология</summary>
+        <div class="topic-content" data-topic="mind"></div>
+      </details>
+      <details class="topic" id="stories">
+        <summary>Необычные истории</summary>
+        <div class="topic-content" data-topic="stories"></div>
+      </details>
+      <details class="topic" id="kaliningrad">
+        <summary>Калининград</summary>
+        <div class="topic-content" data-topic="kaliningrad"></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="editorial-note">
+    <div>
+      <strong>Не просто новости. Понимание происходящего.</strong>
+      <p>LEBEDEV TIME — события, факты и контекст, которые помогают увидеть картину целиком.</p>
+    </div>
+    <div class="editorial-mark">LT.</div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">LEBEDEV <span>TIME</span></div>
+        <div class="footer-tagline">ВРЕМЯ ПОНИМАТЬ ГЛАВНОЕ</div>
+      </div>
+      <div class="footer-tagline">ЖУРНАЛ О ГЛАВНОМ</div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 LEBEDEV TIME</span>
+      <span>Все материалы публикуются в информационных целях</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal" id="news-modal" aria-hidden="true">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" aria-label="Закрыть">×</button>
+    <div class="modal-inner" id="news-modal-content"></div>
   </div>
 </div>
 
 <script>
-(() => {
-  const list = document.getElementById("news-list");
-  const featured = document.getElementById("featured-news");
-  const date = document.getElementById("edition-date");
-  const modal = document.getElementById("news-modal");
-  const modalContent = document.getElementById("news-modal-content");
+(function(){
+"use strict";
 
-  if (!list || !featured || !modal || !modalContent) return;
+const $ = (selector, root=document) => root.querySelector(selector);
+const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
 
-  let articles = [];
+let articles = [];
+let lastFocusedElement = null;
 
-  const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;",
-    '"':"&quot;", "'":"&#039;"
-  })[c]);
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[char]);
+}
 
-  function safeUrl(value) {
-    try {
-      const url = new URL(value);
-      return ["https:", "http:"].includes(url.protocol) ? url.href : "";
-    } catch {
-      return "";
-    }
+function safeURL(value){
+  try{
+    const url = new URL(value, location.href);
+    return ["http:","https:"].includes(url.protocol) ? url.href : "";
+  }catch(e){return "";}
+}
+
+function getImage(article){
+  return safeURL(article.image_small || article.thumbnail || article.image || "");
+}
+
+function getBody(article){
+  return String(article.body || article.content || article.fullText || article.text || article.summary || "");
+}
+
+function getSummary(article){
+  return String(article.summary || article.description || getBody(article).slice(0,240));
+}
+
+function categoryKey(category){
+  const value = String(category || "").toLowerCase();
+  if(value.includes("калининград")) return "kaliningrad";
+  if(value.includes("полит") || value.includes("мир")) return "politics";
+  if(value.includes("прав") || value.includes("закон")) return "law";
+  if(value.includes("обще")) return "society";
+  if(value.includes("эконом") || value.includes("финанс")) return "economy";
+  if(value.includes("технолог") || value.includes("наук") || value.includes("it")) return "technology";
+  if(value.includes("псих") || value.includes("поведен")) return "mind";
+  if(value.includes("загад") || value.includes("необыч") || value.includes("истор")) return "stories";
+  return "society";
+}
+
+function imageHTML(article, className){
+  const image = getImage(article);
+  if(!image) return `<div class="${className}"></div>`;
+  return `<img class="${className}" src="${escapeHTML(image)}" alt="${escapeHTML(article.title || "Новость")}" loading="lazy" decoding="async">`;
+}
+
+function openArticle(index){
+  const article = articles[index];
+  if(!article) return;
+
+  lastFocusedElement = document.activeElement;
+  const image = getImage(article);
+  const source = safeURL(article.url);
+  const paragraphs = getBody(article).split(/\n\s*\n/).filter(Boolean);
+  const bodyHTML = paragraphs.length
+    ? paragraphs.map(p=>`<p>${escapeHTML(p).replace(/\n/g,"<br>")}</p>`).join("")
+    : `<p>${escapeHTML(getBody(article))}</p>`;
+
+  $("#news-modal-content").innerHTML = `
+    <div class="modal-category">${escapeHTML(article.category || "Новости")}</div>
+    <h2 class="modal-title" id="modal-title">${escapeHTML(article.title || "Новость")}</h2>
+    <div class="modal-meta">${escapeHTML(article.source || "LEBEDEV TIME")}</div>
+    ${image ? `<img class="modal-image" src="${escapeHTML(image)}" alt="" decoding="async">` : ""}
+    <div class="modal-body">${bodyHTML}</div>
+    ${source ? `<a class="source-link" href="${escapeHTML(source)}" target="_blank" rel="noopener noreferrer">Перейти к первоисточнику ↗</a>` : ""}
+  `;
+
+  $("#news-modal").classList.add("open");
+  $("#news-modal").setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  $("#modal-close").focus();
+}
+
+function closeModal(){
+  $("#news-modal").classList.remove("open");
+  $("#news-modal").setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  if(lastFocusedElement && lastFocusedElement.focus) lastFocusedElement.focus();
+}
+
+$("#modal-close").addEventListener("click",closeModal);
+$("#news-modal").addEventListener("click",event=>{
+  if(event.target === $("#news-modal")) closeModal();
+});
+document.addEventListener("keydown",event=>{
+  if(event.key === "Escape" && $("#news-modal").classList.contains("open")) closeModal();
+});
+
+function cardHTML(article,index){
+  return `
+    <article class="news-card" data-news="${index}" tabindex="0" role="button" aria-label="Открыть новость: ${escapeHTML(article.title)}">
+      ${imageHTML(article,"news-thumb")}
+      <div>
+        <div class="news-category">${escapeHTML(article.category || "Новости")}</div>
+        <h3 class="news-title">${escapeHTML(article.title || "")}</h3>
+        <div class="news-summary">${escapeHTML(getSummary(article))}</div>
+        <div class="news-meta">${escapeHTML(article.source || "LEBEDEV TIME")}</div>
+      </div>
+    </article>`;
+}
+
+function makePoints(article){
+  if(Array.isArray(article.bullets) && article.bullets.length){
+    return article.bullets.slice(0,3);
+  }
+  const text = getSummary(article);
+  const sentences = text.split(/(?<=[.!?])\s+/).filter(Boolean);
+  return sentences.slice(0,2);
+}
+
+function featureHTML(article,index,label){
+  const points = makePoints(article);
+  return `
+    <article class="feature-card" data-news="${index}" tabindex="0" role="button" aria-label="Открыть новость: ${escapeHTML(article.title)}">
+      ${imageHTML(article,"feature-image")}
+      <div class="feature-label">${escapeHTML(label)}</div>
+      <div class="news-category">${escapeHTML(article.category || "Новости")}</div>
+      <h3 class="news-title">${escapeHTML(article.title || "")}</h3>
+      <div class="news-summary">${escapeHTML(getSummary(article))}</div>
+      ${points.length ? `<ul class="feature-points">${points.map(point=>`<li>${escapeHTML(point)}</li>`).join("")}</ul>` : ""}
+    </article>`;
+}
+
+function renderEdition(data){
+  articles = Array.isArray(data.articles) ? data.articles : [];
+  $("#edition-date").textContent = data.date ? "ВЫПУСК · " + data.date : "ТЕКУЩИЙ ВЫПУСК";
+
+  if(!articles.length){
+    $("#news-list").innerHTML='<div class="empty-state">В этом выпуске пока нет новостей.</div>';
+    $("#featured-news").innerHTML="";
+    return;
   }
 
-  const category = a => a.category || "Новости";
-  const summary = a => a.summary || a.description || "";
-  const fullText = a => a.content || a.fullText || a.text || summary(a);
-  const image = a => safeUrl(a.image_small || a.thumbnail || a.image);
-  const urgent = a => Boolean(a.urgent || a.breaking);
-  const important = a => Boolean(a.featured || a.important);
+  const urgent = articles.map((a,i)=>({a,i})).filter(x=>x.a.urgent || x.a.breaking);
+  const important = articles.map((a,i)=>({a,i})).filter(x=>!urgent.some(u=>u.i===x.i) && (x.a.featured || x.a.important));
+  const kaliningrad = articles.map((a,i)=>({a,i})).filter(x=>categoryKey(x.a.category)==="kaliningrad");
+  const selected = [];
+  const add = item=>{
+    if(item && !selected.some(x=>x.i===item.i) && selected.length<3) selected.push(item);
+  };
 
-  function openNews(index) {
-    const a = articles[index];
-    if (!a) return;
+  urgent.forEach(add);
+  important.forEach(add);
+  kaliningrad.forEach(add);
+  articles.forEach((a,i)=>add({a,i}));
 
-    const img = image(a);
-    const source = safeUrl(a.url);
+  $("#featured-news").innerHTML = selected.map((item,n)=>
+    featureHTML(item.a,item.i,n===0 && urgent.some(x=>x.i===item.i) ? "СРОЧНО" : n===0 ? "В ФОКУСЕ" : "ВАЖНО")
+  ).join("");
 
-    modalContent.innerHTML = `
-      <div class="news-modal-category">${esc(category(a))}</div>
-      <h2 class="news-modal-title">${esc(a.title)}</h2>
-      ${img ? `<img class="news-modal-image"
-        src="${esc(img)}" alt="${esc(a.title)}"
-        loading="eager" decoding="async">` : ""}
-      <div class="news-modal-text">${esc(fullText(a))}</div>
-      ${a.source ? `<p style="color:#888;font-size:12px">
-        Источник: ${esc(a.source)}</p>` : ""}
-      ${source ? `<a class="news-modal-source"
-        href="${esc(source)}" target="_blank"
-        rel="noopener noreferrer">
-        ПЕРЕЙТИ К ПЕРВОИСТОЧНИКУ →
-      </a>` : ""}
-    `;
+  const featuredIndexes = new Set(selected.map(item=>item.i));
+  const rest = articles.map((a,i)=>({a,i})).filter(item=>!featuredIndexes.has(item.i));
+  $("#news-list").innerHTML = rest.length
+    ? rest.map(item=>cardHTML(item.a,item.i)).join("")
+    : articles.map((a,i)=>cardHTML(a,i)).join("");
 
-    modal.classList.add("is-open");
-    modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("news-modal-open");
-  }
+  renderTopics();
+}
 
-  function closeNews() {
-    modal.classList.remove("is-open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("news-modal-open");
-  }
-
-  modal.querySelector(".news-modal-close")
-    .addEventListener("click", closeNews);
-
-  modal.querySelector(".news-modal-backdrop")
-    .addEventListener("click", closeNews);
-
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") closeNews();
+function renderTopics(){
+  const mapping = {
+    politics:"politics",law:"law",society:"society",economy:"economy",
+    technology:"technology",mind:"mind",stories:"stories",kaliningrad:"kaliningrad"
+  };
+  Object.entries(mapping).forEach(([topic,key])=>{
+    const target = $(`[data-topic="${topic}"]`);
+    const matches = articles.map((a,i)=>({a,i})).filter(item=>categoryKey(item.a.category)===key);
+    target.innerHTML = matches.length
+      ? matches.map(item=>`<a class="topic-link" href="#" data-news="${item.i}">${escapeHTML(item.a.title)}</a>`).join("")
+      : `<div class="news-meta">В этом выпуске нет материалов рубрики.</div>`;
   });
+}
 
-  function featureCard(a, index, label) {
-    const img = image(a);
-    const bullets = Array.isArray(a.bullets) ? a.bullets : [];
-
-    return `
-      <article class="news-feature-card" data-news="${index}">
-        ${urgent(a) ? '<div class="news-breaking-label">СРОЧНО</div>' : ""}
-        ${img ? `<img class="news-feature-image"
-          src="${esc(img)}" alt="${esc(a.title)}"
-          loading="lazy" decoding="async">` : ""}
-        <div class="news-feature-tag">${esc(label)}</div>
-        <h3 class="news-feature-title">${esc(a.title)}</h3>
-        <p class="news-feature-summary">${esc(summary(a))}</p>
-        ${bullets.length ? `<ul class="news-feature-bullets">
-          ${bullets.slice(0,4).map(x => `<li>${esc(x)}</li>`).join("")}
-        </ul>` : ""}
-      </article>
-    `;
+document.addEventListener("click",event=>{
+  const card = event.target.closest("[data-news]");
+  if(!card) return;
+  event.preventDefault();
+  openArticle(Number(card.dataset.news));
+});
+document.addEventListener("keydown",event=>{
+  const card = event.target.closest("[data-news]");
+  if(card && (event.key==="Enter" || event.key===" ")){
+    event.preventDefault();
+    openArticle(Number(card.dataset.news));
   }
+});
 
-  function listItem(a, index) {
-    return `
-      <article class="news-list-item" data-news="${index}"
-        tabindex="0" role="button">
-        <div class="news-list-meta">
-          ${urgent(a) ? '<b style="color:#a61920">СРОЧНО · </b>' : ""}
-          ${esc(category(a))}
-        </div>
-        <h3 class="news-list-title">${esc(a.title)}</h3>
-        <p class="news-list-summary">${esc(summary(a))}</p>
-      </article>
-    `;
+async function loadEdition(){
+  try{
+    const response = await fetch("data/edition.json?t="+Date.now(),{cache:"no-store"});
+    if(!response.ok) throw new Error("HTTP "+response.status);
+    const data = await response.json();
+    renderEdition(data);
+  }catch(error){
+    console.error("Ошибка загрузки выпуска:",error);
+    $("#news-list").innerHTML='<div class="empty-state">Не удалось загрузить выпуск. Проверьте файл data/edition.json.</div>';
+    $("#featured-news").innerHTML="";
   }
+}
 
-  function render(data) {
-    articles = Array.isArray(data.articles) ? data.articles : [];
+/* ФИНАНСОВЫЕ ДАННЫЕ */
+function money(value,digits=2){
+  const number = Number(value);
+  return Number.isFinite(number)
+    ? number.toLocaleString("ru-RU",{maximumFractionDigits:digits})
+    : "—";
+}
+function setMarket(id,value){
+  const element = document.getElementById(id);
+  if(element) element.textContent = value;
+}
 
-    date.textContent = data.date
-      ? "Выпуск от " + data.date
-      : "Последние материалы";
+async function loadCrypto(){
+  try{
+    const url="https://data-api.binance.vision/api/v3/ticker/24hr?symbols=%5B%22BTCUSDT%22,%22ETHUSDT%22%5D";
+    const response=await fetch(url);
+    if(!response.ok) throw new Error("Binance unavailable");
+    const data=await response.json();
+    data.forEach(item=>{
+      if(item.symbol==="BTCUSDT") setMarket("btc-value","$"+money(item.lastPrice,0));
+      if(item.symbol==="ETHUSDT") setMarket("eth-value","$"+money(item.lastPrice,0));
+    });
+  }catch(error){console.warn("Криптовалюты временно недоступны",error);}
+}
 
-    if (!articles.length) {
-      list.innerHTML = '<div class="news-empty">Новостей пока нет.</div>';
-      featured.innerHTML = "";
-      return;
-    }
+async function loadCurrencies(){
+  try{
+    const response=await fetch("https://open.er-api.com/v6/latest/USD");
+    if(!response.ok) throw new Error("Currency API unavailable");
+    const data=await response.json();
+    const rates=data.rates || {};
+    const rub=Number(rates.RUB);
+    const eur=Number(rates.EUR);
+    if(rub>0) setMarket("usd-value",money(rub,2));
+    if(rub>0 && eur>0) setMarket("eur-value",money(rub/eur,2));
+  }catch(error){console.warn("Валюты временно недоступны",error);}
+}
 
-    const selected = [];
-    const used = new Set();
+async function loadMetals(){
+  try{
+    const response=await fetch("https://xaus.com/api/v1/spot");
+    if(!response.ok) throw new Error("Metals API unavailable");
+    const data=await response.json();
+    const source=data.data || data.result || data;
+    const gold=Number(source.gold || source.XAU || source.xau || source.gold_price);
+    const silver=Number(source.silver || source.XAG || source.xag || source.silver_price);
+    if(gold>0) setMarket("gold-value","$"+money(gold,2));
+    if(silver>0) setMarket("silver-value","$"+money(silver,2));
+  }catch(error){console.warn("Котировки металлов временно недоступны",error);}
+}
 
-    function add(a, label) {
-      if (!a) return;
-      const i = articles.indexOf(a);
-      if (i < 0 || used.has(i)) return;
-      selected.push({ article:a, index:i, label });
-      used.add(i);
-    }
+async function loadMarket(){
+  setMarket("market-status","ОБНОВЛЕНИЕ КОТИРОВОК");
+  await Promise.allSettled([loadCrypto(),loadCurrencies(),loadMetals()]);
+  setMarket("market-status","ДАННЫЕ ОБНОВЛЯЮТСЯ АВТОМАТИЧЕСКИ");
+}
 
-    const urgentArticle = articles.find(urgent);
-    const importantArticle = articles.find(a => important(a) && a !== urgentArticle);
-    const kaliningradArticle = articles.find(a =>
-      /калининград/i.test((a.category || "") + " " + (a.title || "")) &&
-      a !== urgentArticle && a !== importantArticle
-    );
-
-    add(urgentArticle, "Экстренно");
-    add(importantArticle, "Главное");
-    add(kaliningradArticle, "Калининград");
-
-    if (!selected.length) add(articles[0], "Главное сегодня");
-
-    featured.innerHTML = selected.map(x =>
-      featureCard(x.article, x.index, x.label)
-    ).join("");
-
-    const remaining = articles
-      .map((a,i) => ({a,i}))
-      .filter(x => !used.has(x.i));
-
-    list.innerHTML = remaining.length
-      ? remaining.map(x => listItem(x.a,x.i)).join("")
-      : '<div class="news-empty">Все материалы представлены справа.</div>';
-  }
-
-  document.addEventListener("click", e => {
-    const item = e.target.closest("[data-news]");
-    if (item) openNews(Number(item.dataset.news));
+function setDate(){
+  const now=new Date();
+  $("#today-date").textContent=now.toLocaleDateString("ru-RU",{
+    day:"2-digit",month:"long",year:"numeric"
   });
+}
 
-  document.addEventListener("keydown", e => {
-    if ((e.key === "Enter" || e.key === " ") &&
-        e.target.matches("[data-news]")) {
-      e.preventDefault();
-      openNews(Number(e.target.dataset.news));
-    }
-  });
+setDate();
+loadEdition();
+loadMarket();
+setInterval(loadCrypto,60000);
+setInterval(loadMetals,60000);
+setInterval(loadCurrencies,12*60*60*1000);
 
-  async function loadNews() {
-    try {
-      const response = await fetch("data/edition.json?t=" + Date.now());
-      if (!response.ok) throw new Error("Ошибка загрузки выпуска");
-      render(await response.json());
-    } catch (error) {
-      console.error("LEBEDEV TIME:", error);
-      list.innerHTML =
-        '<div class="news-empty">Не удалось загрузить новости.</div>';
-      featured.innerHTML = "";
-    }
-  }
-
-  loadNews();
 })();
 </script>
+</body>
+</html>
