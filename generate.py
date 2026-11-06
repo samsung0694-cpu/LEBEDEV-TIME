@@ -9,12 +9,17 @@ API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=API_KEY)
 
 FEEDS = [
+    FEEDS = [
     "https://www.interfax.ru/rss.asp",
     "https://tass.ru/rss/v2.xml",
     "https://lenta.ru/rss",
-    "https://www.kommersant.ru/RSS/main.xml",
+    "https://www.kommersant.ru/rss/news.xml",
+    "https://www.vedomosti.ru/rss/news",
+    "https://www.vedomosti.ru/rss/rubric/politics",
+    "https://www.vedomosti.ru/rss/rubric/economics",
+    "https://www.vedomosti.ru/rss/rubric/technology",
+    "https://habr.com/ru/rss/all/all/",
 ]
-
 def collect_news():
     items = []
 
