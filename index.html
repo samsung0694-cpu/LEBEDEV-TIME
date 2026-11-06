@@ -397,6 +397,57 @@ footer strong{color:white}
 
   .section-title{font-size:27px}
 }
+  .section-title{font-size:27px}
+}
+
+/* Оформление раскрывающейся статьи */
+.article-details {
+  margin-top: 14px;
+}
+
+.article-details summary {
+  display: inline-block;
+  cursor: pointer;
+  list-style: none;
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 0;
+}
+
+.article-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-details[open] summary {
+  margin-bottom: 10px;
+}
+
+.article-full {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text);
+  padding-top: 8px;
+}
+
+.article-full p {
+  margin: 0 0 14px;
+}
+
+.article-source {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.article-source a {
+  color: var(--red);
+  font-weight: 700;
+}
+</style>
 </style>
 </head>
 
