@@ -32,7 +32,7 @@ def collect_news():
             with urllib.request.urlopen(request, timeout=20) as response:
                 root = ET.fromstring(response.read())
 
-            for item in root.findall(".//item")[:20]:
+            for item in root.findall(".//item")[:50]:
                 title = item.findtext("title", "")
                 link = item.findtext("link", "")
                 description = item.findtext("description", "")
