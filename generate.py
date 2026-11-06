@@ -9,6 +9,7 @@ API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=API_KEY)
 
 FEEDS = [
+    "https://www.newkaliningrad.ru/news/rss.xml",
     "https://www.interfax.ru/rss.asp",
     "https://tass.ru/rss/v2.xml",
     "https://lenta.ru/rss",
