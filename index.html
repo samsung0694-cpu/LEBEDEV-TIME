@@ -529,10 +529,58 @@ function categoryKey(category){
   return "society";
 }
 
+function fallbackImage(category){
+  const themes = {
+    "Политика": ["ПОЛИТИКА", "Дипломатия и власть"],
+    "Право": ["ПРАВО", "Закон и справедливость"],
+    "Общество": ["ОБЩЕСТВО", "Люди и события"],
+    "Экономика": ["ЭКОНОМИКА", "Мировые рынки"],
+    "Технологии": ["ТЕХНОЛОГИИ", "Будущее уже здесь"],
+    "Психология": ["ПСИХОЛОГИЯ", "Человек и поведение"],
+    "Необычные истории": ["ИСТОРИИ", "Необычное рядом"],
+    "Калининград": ["КАЛИНИНГРАД", "Новости региона"]
+  };
+
+  const theme = themes[category] || ["LEBEDEV TIME", "Время понимать главное"];
+
+  const svg = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+    <defs>
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#17202c"/>
+        <stop offset="100%" stop-color="#394858"/>
+      </linearGradient>
+    </defs>
+    <rect width="900" height="520" fill="url(#bg)"/>
+    <circle cx="730" cy="150" r="180" fill="#ffffff" opacity=".035"/>
+    <circle cx="730" cy="150" r="125" fill="none" stroke="#ffffff" opacity=".09" stroke-width="2"/>
+    <path d="M0 410 L900 270 L900 520 L0 520Z" fill="#ffffff" opacity=".035"/>
+    <rect x="65" y="75" width="7" height="95" fill="#d71920"/>
+    <text x="95" y="115" fill="#ffffff" font-family="Arial,sans-serif" font-size="30" font-weight="bold">LEBEDEV TIME</text>
+    <text x="95" y="155" fill="#d71920" font-family="Arial,sans-serif" font-size="19" letter-spacing="5">${theme[0]}</text>
+    <text x="65" y="355" fill="#ffffff" font-family="Georgia,serif" font-size="43">${theme[1]}</text>
+    <line x1="65" y1="390" x2="835" y2="390" stroke="#d71920" stroke-width="3"/>
+    <text x="65" y="445" fill="#b8c1ca" font-family="Arial,sans-serif" font-size="18" letter-spacing="4">ВРЕМЯ ПОНИМАТЬ ГЛАВНОЕ</text>
+  </svg>`;
+
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+
 function imageHTML(article, className){
+  const fallback = fallbackImage(article.category);
   const image = getImage(article);
-  if(!image) return `<div class="${className}"></div>`;
-  return `<img class="${className}" src="${escapeHTML(image)}" alt="${escapeHTML(article.title || "Новость")}" loading="lazy" decoding="async">`;
+
+  return `
+    <img
+      class="${className}"
+      src="${escapeHTML(image || fallback)}"
+      data-fallback="${escapeHTML(fallback)}"
+      alt="${escapeHTML(article.title || "Новость")}"
+      loading="lazy"
+      decoding="async"
+      onerror="this.onerror=null;this.src=this.dataset.fallback;"
+    >
+  `;
 }
 
 function openArticle(index){
