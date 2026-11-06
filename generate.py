@@ -10,12 +10,14 @@ import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
 from datetime import datetime, timezone, timedelta
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from google import genai
 
 
 API_KEY = os.environ["GEMINI_API_KEY"]
 client = genai.Client(api_key=API_KEY)
 
+MODEL = "gemini-3.5-flash-lite"
 
 FEEDS = [
     "https://www.newkaliningrad.ru/news/rss.xml",
@@ -30,10 +32,11 @@ FEEDS = [
     "https://habr.com/ru/rss/all/all/",
 ]
 
-
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; LEBEDEV-TIME/1.0)"
 }
+
+MAX_NEWS = 40
 
 
 def local_name(tag):
@@ -47,7 +50,7 @@ def get_child_text(element, names):
     return ""
 
 
-def valid_image_url(url, base_url=""):
+def valid_url(url, base_url=""):
     if not url:
         return ""
 
@@ -66,38 +69,108 @@ def valid_image_url(url, base_url=""):
     return url
 
 
-class ImageParser(HTMLParser):
+class ArticleParser(HTMLParser):
+
     def __init__(self):
         super().__init__()
         self.image = ""
+        self.ignored = 0
+        self.content_depth = 0
+        self.current_paragraph = None
+        self.all_paragraphs = []
+        self.main_paragraphs = []
 
     def handle_starttag(self, tag, attrs):
-        if tag.lower() != "meta" or self.image:
-            return
-
+        tag = tag.lower()
         attrs = dict(attrs)
 
-        property_name = (
-            attrs.get("property")
-            or attrs.get("name")
-            or ""
-        ).lower()
+        if tag == "meta" and not self.image:
+            name = (
+                attrs.get("property")
+                or attrs.get("name")
+                or ""
+            ).lower()
 
-        if property_name in ("og:image", "twitter:image"):
-            self.image = attrs.get("content", "")
+            if name in ("og:image", "twitter:image"):
+                self.image = attrs.get("content", "")
 
+        if tag in (
+            "script", "style", "nav", "footer",
+            "header", "aside", "noscript",
+            "svg", "form"
+        ):
+            self.ignored += 1
+            return
 
-def image_from_html(source_html, base_url):
-    if not source_html:
-        return ""
+        if self.ignored:
+            return
 
-    parser = ImageParser()
+        if tag in ("article", "main"):
+            self.content_depth += 1
 
-    try:
-        parser.feed(source_html)
-        return valid_image_url(parser.image, base_url)
-    except Exception:
-        return ""
+        if tag == "p":
+            self.current_paragraph = {
+                "text": "",
+                "main": self.content_depth > 0
+            }
+
+    def handle_data(self, data):
+        if self.ignored or self.current_paragraph is None:
+            return
+
+        self.current_paragraph["text"] += data
+
+    def handle_endtag(self, tag):
+        tag = tag.lower()
+
+        if tag in (
+            "script", "style", "nav", "footer",
+            "header", "aside", "noscript",
+            "svg", "form"
+        ):
+            self.ignored = max(0, self.ignored - 1)
+            return
+
+        if self.ignored:
+            return
+
+        if tag == "p" and self.current_paragraph:
+            paragraph = re.sub(
+                r"\s+",
+                " ",
+                self.current_paragraph["text"]
+            ).strip()
+
+            if len(paragraph) > 50:
+                self.all_paragraphs.append(paragraph)
+
+                if self.current_paragraph["main"]:
+                    self.main_paragraphs.append(paragraph)
+
+            self.current_paragraph = None
+
+        if tag in ("article", "main"):
+            self.content_depth = max(
+                0,
+                self.content_depth - 1
+            )
+
+    def get_text(self):
+        paragraphs = (
+            self.main_paragraphs
+            if self.main_paragraphs
+            else self.all_paragraphs
+        )
+
+        result = []
+        seen = set()
+
+        for paragraph in paragraphs:
+            if paragraph not in seen:
+                seen.add(paragraph)
+                result.append(paragraph)
+
+        return "\n\n".join(result)[:5000]
 
 
 def image_from_description(description, base_url):
@@ -111,7 +184,7 @@ def image_from_description(description, base_url):
     )
 
     if match:
-        return valid_image_url(match.group(1), base_url)
+        return valid_url(match.group(1), base_url)
 
     return ""
 
@@ -121,7 +194,7 @@ def image_from_feed_item(item, base_url):
         name = local_name(element.tag)
 
         if name in ("thumbnail", "content"):
-            image = valid_image_url(
+            image = valid_url(
                 element.attrib.get("url", ""),
                 base_url
             )
@@ -130,10 +203,8 @@ def image_from_feed_item(item, base_url):
                 return image
 
         if name == "enclosure":
-            mime_type = element.attrib.get("type", "")
-
-            if mime_type.startswith("image/"):
-                image = valid_image_url(
+            if element.attrib.get("type", "").startswith("image/"):
+                image = valid_url(
                     element.attrib.get("url", ""),
                     base_url
                 )
@@ -144,29 +215,42 @@ def image_from_feed_item(item, base_url):
     return ""
 
 
-def image_from_article_page(article_url):
+def fetch_article_page(article_url):
     try:
         request = urllib.request.Request(
             article_url,
             headers=HEADERS
         )
 
-        with urllib.request.urlopen(request, timeout=15) as response:
-            content_type = response.headers.get("Content-Type", "")
+        with urllib.request.urlopen(
+            request,
+            timeout=12
+        ) as response:
+
+            content_type = response.headers.get(
+                "Content-Type",
+                ""
+            )
 
             if "html" not in content_type.lower():
-                return ""
+                return "", ""
 
-            page = response.read(500000).decode(
+            page = response.read(700000).decode(
                 "utf-8",
                 errors="replace"
             )
 
-        return image_from_html(page, article_url)
+        parser = ArticleParser()
+        parser.feed(page)
+
+        return (
+            parser.get_text(),
+            valid_url(parser.image, article_url)
+        )
 
     except Exception as error:
-        print(f"Image page error: {error}")
-        return ""
+        print("Ошибка загрузки статьи:", error)
+        return "", ""
 
 
 def collect_news():
@@ -215,7 +299,7 @@ def collect_news():
                     {"description", "summary", "encoded", "content"}
                 )
 
-                link = valid_image_url(link, feed_url)
+                link = valid_url(link, feed_url)
 
                 if not title or not link:
                     continue
@@ -231,7 +315,10 @@ def collect_news():
                 source = get_child_text(entry, {"source"})
 
                 if not source:
-                    source = urlparse(link).netloc.replace("www.", "")
+                    source = urlparse(link).netloc.replace(
+                        "www.",
+                        ""
+                    )
 
                 items.append({
                     "title": html.unescape(title),
@@ -242,9 +329,8 @@ def collect_news():
                 })
 
         except Exception as error:
-            print(f"RSS error ({feed_url}): {error}")
+            print(f"Ошибка RSS ({feed_url}): {error}")
 
-    # Убираем повторяющиеся публикации
     unique_items = []
     seen_links = set()
 
@@ -253,23 +339,65 @@ def collect_news():
             seen_links.add(item["link"])
             unique_items.append(item)
 
-    print("Всего найдено новостей:", len(unique_items))
+    unique_items = unique_items[:MAX_NEWS]
+
+    print("Найдено материалов:", len(unique_items))
 
     return unique_items
 
 
-news = collect_news()
+def prepare_article_material(item):
+    text, page_image = fetch_article_page(item["link"])
 
-if not news:
-    raise RuntimeError(
-        "Не удалось получить новости из RSS-лент"
+    item["article_text"] = text
+
+    if not item.get("image"):
+        item["image"] = page_image
+
+    return item
+
+
+def generate_edition(news):
+    materials = []
+
+    print("Загрузка текстов первоисточников...")
+
+    with ThreadPoolExecutor(max_workers=6) as executor:
+        futures = [
+            executor.submit(prepare_article_material, item)
+            for item in news
+        ]
+
+        for future in as_completed(futures):
+            try:
+                materials.append(future.result())
+            except Exception as error:
+                print("Ошибка обработки материала:", error)
+
+    materials.sort(
+        key=lambda item: news.index(
+            next(
+                original for original in news
+                if original["link"] == item["link"]
+            )
+        )
     )
 
+    usable_materials = []
 
-prompt = f"""
-Ты — главный редактор ежедневного электронного журнала LEBEDEV TIME.
+    for item in materials:
+        usable_materials.append({
+            "title": item["title"],
+            "url": item["link"],
+            "source": item["source"],
+            "description": item["description"][:1500],
+            "article_text": item["article_text"][:5000]
+        })
 
-Подготовь полноценный ежедневный новостной выпуск на русском языке.
+    prompt = f"""
+Ты — главный редактор электронного журнала LEBEDEV TIME.
+
+Создай ежедневный новостной выпуск на русском языке.
 
 ОБЯЗАТЕЛЬНЫЕ РУБРИКИ:
 
@@ -282,133 +410,189 @@ prompt = f"""
 7. Необычные истории
 8. Калининград
 
-РЕДАКЦИОННЫЕ ПРАВИЛА:
+ТРЕБОВАНИЯ К ОТБОРУ:
 
-1. Используй только предоставленные материалы.
-2. Стремись включить минимум 2 статьи в каждую рубрику,
-если для этого есть реальные материалы.
-3. Не выдумывай события, факты, даты, цитаты и источники.
-4. Не дублируй одну новость в нескольких рубриках.
-5. Для рубрики «Право» выбирай законодательство,
-судебную практику и правоохранительную деятельность.
-6. Для рубрики «Психология» выбирай исследования,
-поведение людей и социальные явления.
-7. Для рубрики «Необычные истории» выбирай
-документированные необычные события и открытия.
-8. Для рубрики «Калининград» используй новости
-Калининграда и Калининградской области.
-9. Не выдавай старые события за сегодняшние.
-10. Если материалов недостаточно, не выдумывай новости.
-11. Сохраняй оригинальные ссылки и названия источников.
-12. Пиши интересно, профессионально и понятно.
+1. Отбирай наиболее значимые и интересные новости.
+2. Стремись включить до двух материалов в каждую рубрику,
+если есть достаточные подтверждённые сведения.
+3. Не дублируй новости.
+4. Для Калининграда используй только материалы
+о Калининграде и Калининградской области.
+5. Не выдавай старые события за новые.
+6. Не выдумывай факты, даты, имена, цифры и цитаты.
+7. Если материала недостаточно, не включай его.
+8. Используй только переданные источники и сведения.
 
-Верни исключительно корректный JSON следующего вида:
+ТРЕБОВАНИЯ К СТАТЬЯМ:
+
+Для каждой выбранной новости подготовь:
+
+1. title — оригинальный редакционный заголовок.
+2. summary — краткий анонс из 2 предложений.
+3. body — самостоятельную развёрнутую статью из 5–7 абзацев.
+
+Объём body — ориентировочно 300–500 слов.
+
+ПРАВИЛА НАПИСАНИЯ:
+
+- Не копируй оригинальные статьи.
+- Не заменяй слова синонимами, сохраняя чужую структуру.
+- Используй проверенные факты, но строй собственное изложение.
+- Объясняй предысторию, значение события и возможные последствия.
+- Чётко отделяй установленные факты от оценок и предположений.
+- Не создавай вымышленные цитаты и комментарии.
+- Не добавляй выводы, которые не подтверждаются материалами.
+- Не называй текст оригинальной журналистской работой очевидца.
+- Не используй длинные фрагменты исходных публикаций.
+- Если исходный материал содержит недостаточно информации,
+не создавай искусственно длинную статью.
+- Не придумывай дополнительные источники.
+
+ВАЖНО:
+
+Каждая статья должна относиться к конкретному материалу
+из переданного списка.
+
+Поле url должно в точности совпадать
+с одной из переданных ссылок.
+
+Поле source должно соответствовать первоисточнику.
+
+Верни исключительно корректный JSON:
 
 {{
-  "date": "дата выпуска",
+  "date": "",
   "articles": [
     {{
-      "category": "Название рубрики",
+      "category": "Политика",
       "title": "Заголовок",
-      "summary": "Краткое содержание",
+      "summary": "Краткий анонс",
+      "body": "Первый абзац.\\n\\nВторой абзац.",
       "source": "Название источника",
-      "url": "Ссылка на источник"
+      "url": "Точная ссылка"
     }}
   ]
 }}
 
-Материалы:
-{json.dumps(news, ensure_ascii=False)}
+МАТЕРИАЛЫ:
+
+{json.dumps(usable_materials, ensure_ascii=False)}
 """
 
+    response = None
 
-response = None
+    for attempt in range(5):
+        try:
+            response = client.models.generate_content(
+                model=MODEL,
+                contents=prompt
+            )
+            break
 
-for attempt in range(5):
-    try:
-        response = client.models.generate_content(
-            model="gemini-3.5-flash-lite",
-            contents=prompt
+        except Exception as error:
+            print(
+                f"Попытка {attempt + 1} не удалась: {error}"
+            )
+
+            if attempt == 4:
+                raise
+
+            time.sleep(15 * (attempt + 1))
+
+    if not response or not response.text:
+        raise RuntimeError("ИИ не вернул текст выпуска")
+
+    content = response.text.strip()
+    content = content.replace("```json", "").replace("```", "").strip()
+
+    edition = json.loads(content)
+
+    if not isinstance(edition.get("articles"), list):
+        raise RuntimeError("Некорректная структура выпуска")
+
+    source_map = {
+        item["link"]: item
+        for item in materials
+    }
+
+    valid_articles = []
+
+    for article in edition["articles"]:
+
+        original = source_map.get(article.get("url", ""))
+
+        if not original:
+            print(
+                "Пропущена статья с неизвестной ссылкой:",
+                article.get("title", "")
+            )
+            continue
+
+        article["source"] = original["source"]
+        article["image"] = original.get("image", "")
+
+        article["title"] = str(article.get("title", ""))[:250]
+        article["summary"] = str(article.get("summary", ""))[:1500]
+        article["body"] = str(article.get("body", ""))[:12000]
+
+        if not article["title"] or not article["body"]:
+            print(
+                "Пропущена статья без полного текста:",
+                article.get("title", "")
+            )
+            continue
+
+        valid_articles.append(article)
+
+    edition["articles"] = valid_articles
+
+    return edition
+
+
+def main():
+    news = collect_news()
+
+    if not news:
+        raise RuntimeError(
+            "Не удалось получить новости из RSS-лент"
         )
-        break
 
-    except Exception as error:
-        print(f"Попытка {attempt + 1} не удалась: {error}")
+    edition = generate_edition(news)
 
-        if attempt == 4:
-            raise
+    moscow_time = datetime.now(
+        timezone(timedelta(hours=3))
+    )
 
-        time.sleep(15 * (attempt + 1))
+    edition["date"] = moscow_time.strftime("%d.%m.%Y")
 
+    os.makedirs("data", exist_ok=True)
 
-if not response or not response.text:
-    raise RuntimeError("ИИ не вернул текст выпуска")
+    with open(
+        "data/edition.json",
+        "w",
+        encoding="utf-8"
+    ) as file:
 
+        json.dump(
+            edition,
+            file,
+            ensure_ascii=False,
+            indent=2
+        )
 
-content = response.text.strip()
-content = content.replace("```json", "").replace("```", "").strip()
+    articles = edition.get("articles", [])
 
-edition = json.loads(content)
-
-
-# Сопоставляем новости с исходными RSS-материалами
-source_map = {
-    item["link"]: item
-    for item in news
-}
-
-
-for article in edition.get("articles", []):
-
-    original = source_map.get(article.get("url", ""))
-
-    image = ""
-
-    if original:
-        image = original.get("image", "")
-
-        if not article.get("source"):
-            article["source"] = original.get("source", "")
-
-    # Если в RSS фотографии нет, ищем её
-    # непосредственно на странице публикации
-    if not image and article.get("url"):
-        image = image_from_article_page(article["url"])
-
-    article["image"] = image
-
-    if image:
-        print("Найдена фотография:", article.get("title", ""))
-    else:
-        print("Фотография не найдена:", article.get("title", ""))
-
-
-moscow_time = datetime.now(
-    timezone(timedelta(hours=3))
-)
-
-edition["date"] = moscow_time.strftime("%d.%m.%Y")
-
-
-os.makedirs("data", exist_ok=True)
-
-with open(
-    "data/edition.json",
-    "w",
-    encoding="utf-8"
-) as file:
-
-    json.dump(
-        edition,
-        file,
-        ensure_ascii=False,
-        indent=2
+    print("LEBEDEV TIME: выпуск подготовлен!")
+    print("Статей:", len(articles))
+    print(
+        "Статей с фотографиями:",
+        sum(1 for article in articles if article.get("image"))
+    )
+    print(
+        "Статей с полным текстом:",
+        sum(1 for article in articles if article.get("body"))
     )
 
 
-print("LEBEDEV TIME: выпуск подготовлен!")
-print("Статей:", len(edition.get("articles", [])))
-print(
-    "Статей с фотографиями:",
-    sum(1 for article in edition.get("articles", []) if article.get("image"))
-)
+if __name__ == "__main__":
+    main()
