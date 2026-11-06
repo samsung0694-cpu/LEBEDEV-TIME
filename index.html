@@ -824,7 +824,7 @@ function openSpaceArticle(){
     if(event.target === overlay) overlay.remove();
   };
 }
-
+window.openSpaceArticle = openSpaceArticle;
   const urgent = articles.map((a,i)=>({a,i})).filter(x=>x.a.urgent || x.a.breaking);
   const important = articles.map((a,i)=>({a,i})).filter(x=>!urgent.some(u=>u.i===x.i) && (x.a.featured || x.a.important));
   const kaliningrad = articles.map((a,i)=>({a,i})).filter(x=>categoryKey(x.a.category)==="kaliningrad");
