@@ -412,4 +412,3 @@ print(
     "Статей с фотографиями:",
     sum(1 for article in edition.get("articles", []) if article.get("image"))
 )
-```
