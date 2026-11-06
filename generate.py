@@ -639,10 +639,7 @@ def generate_edition(news):
     return edition
 
 def find_nasa_video(space_article):
-    """
-    Ищет видео в NASA Image and Video Library.
-    Использует несколько запасных поисковых запросов.
-    """
+    """Поиск космического видео в библиотеке NASA."""
 
     search_terms = [
         space_article.get("nasa_search", ""),
@@ -655,7 +652,6 @@ def find_nasa_video(space_article):
     checked_queries = set()
 
     for search_term in search_terms:
-
         search_term = str(search_term).strip()
 
         if not search_term or search_term.lower() in checked_queries:
@@ -680,22 +676,14 @@ def find_nasa_video(space_article):
                 headers=HEADERS
             )
 
-            with urllib.request.urlopen(
-                request,
-                timeout=25
-            ) as response:
-                search_data = json.loads(
-                    response.read().decode("utf-8")
-                )
+            with urllib.request.urlopen(request, timeout=25) as response:
+                search_data = json.loads(response.read().decode("utf-8"))
 
-            items = search_data.get(
-                "collection", {}
-            ).get("items", [])
+            items = search_data.get("collection", {}).get("items", [])
 
             print("Найдено материалов:", len(items))
 
             for item in items[:10]:
-
                 data_list = item.get("data", [])
 
                 if not data_list:
@@ -717,17 +705,10 @@ def find_nasa_video(space_article):
                     headers=HEADERS
                 )
 
-                with urllib.request.urlopen(
-                    asset_request,
-                    timeout=25
-                ) as response:
-                    asset_data = json.loads(
-                        response.read().decode("utf-8")
-                    )
+                with urllib.request.urlopen(asset_request, timeout=25) as response:
+                    asset_data = json.loads(response.read().decode("utf-8"))
 
-                assets = asset_data.get(
-                    "collection", {}
-                ).get("items", [])
+                assets = asset_data.get("collection", {}).get("items", [])
 
                 video_links = []
 
@@ -745,24 +726,9 @@ def find_nasa_video(space_article):
                 if not video_links:
                     continue
 
-                preferred_video = next(
-                    (
-                        url for suffix in (
-                            "~medium.mp4",
-                            "~small.mp4",
-                            "~large.mp4",
-                            "~orig.mp4"
-                        )
-                        for url in video_links
-                        if suffix in urlparse(url).path.lower()
-                    ),
-                    video_links[0]
-                )
+                preferred_video = video_links[0]
 
-                print(
-                    "Найдена космическая анимация NASA:",
-                    metadata.get("title", "")
-                )
+                print("Найдена космическая анимация NASA:", metadata.get("title", ""))
 
                 return {
                     "video": preferred_video,
@@ -775,14 +741,9 @@ def find_nasa_video(space_article):
                 }
 
         except Exception as error:
-            print(
-                "Ошибка поиска NASA по запросу",
-                search_term,
-                ":",
-                error
-            )
+            print("Ошибка поиска NASA:", error)
 
-    print("Видео NASA не найдено ни по одному запросу")
+    print("Видео NASA не найдено")
     return {}
 
         search_url = (
