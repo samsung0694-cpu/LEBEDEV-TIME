@@ -702,17 +702,6 @@ function createNewsCard(article) {
   `;
 }
 
-      <div class="news-category">
-        ${escapeHTML(article.source || article.category || "LEBEDEV TIME")}
-      </div>
-
-      <h3>${escapeHTML(article.title)}</h3>
-      <p>${escapeHTML(article.summary)}</p>
-
-      <a href="${safeURL(article.url)}" target="_blank" rel="noopener noreferrer">
-        ЧИТАТЬ ИСТОЧНИК →
-      </a>
-    </article>
   `;
 }
 
