@@ -560,10 +560,38 @@ def generate_edition(news):
     if not response or not response.text:
         raise RuntimeError("ИИ не вернул текст выпуска")
 
-    content = response.text.strip()
-    content = content.replace("```json", "").replace("```", "").strip()
+   content = response.text.strip()
 
+# Удаляем Markdown-обрамление, если Gemini его добавил
+if content.startswith("```"):
+    content = content.replace("```json", "", 1)
+    content = content.replace("```", "").strip()
+
+# Находим начало и конец JSON
+start = content.find("{")
+end = content.rfind("}")
+
+if start == -1 or end == -1:
+    print("ОТВЕТ GEMINI:")
+    print(content[:5000])
+    raise RuntimeError("Gemini не вернул JSON")
+
+content = content[start:end + 1]
+
+try:
     edition = json.loads(content)
+except json.JSONDecodeError as error:
+    print("ОШИБКА В JSON ОТ GEMINI")
+    print(f"Строка: {error.lineno}, позиция: {error.colno}")
+    print("Фрагмент ответа:")
+    lines = content.splitlines()
+    first = max(0, error.lineno - 4)
+    last = min(len(lines), error.lineno + 3)
+
+    for number in range(first, last):
+        print(f"{number + 1}: {lines[number]}")
+
+    raise
 
     if not isinstance(edition.get("articles"), list):
         raise RuntimeError("Некорректная структура выпуска")
