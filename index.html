@@ -576,20 +576,36 @@ function getCategoryKey(category) {
   return null;
 }
 
+
 function createNewsCard(article) {
+  const imageURL = safeURL(article.image);
+
   return `
     <article class="news-card">
+      ${imageURL ? `
+        <img
+          class="news-image"
+          src="${imageURL}"
+          alt="${escapeHTML(article.title || "Новость")}"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+        >
+      ` : ""}
+
       <div class="news-category">
         ${escapeHTML(article.source || article.category || "LEBEDEV TIME")}
       </div>
+
       <h3>${escapeHTML(article.title)}</h3>
       <p>${escapeHTML(article.summary)}</p>
+
       <a href="${safeURL(article.url)}" target="_blank" rel="noopener noreferrer">
         ЧИТАТЬ ИСТОЧНИК →
       </a>
     </article>
   `;
 }
+
 
 async function loadEdition() {
   const dateElement = document.getElementById("edition-date");
