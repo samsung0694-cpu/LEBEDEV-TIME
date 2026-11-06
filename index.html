@@ -40,6 +40,16 @@ nav a:hover{color:var(--red)}
 .article h3{font-family:'Playfair Display',serif;font-size:23px;line-height:1.2;margin:8px 0}
 .article p{font-size:13px;line-height:1.7;color:#666}
 .label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--red);text-transform:uppercase}
+#latest-news{margin-top:40px}
+#edition-date{margin-bottom:22px}
+.news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:25px}
+.news-card{padding:20px 0;border-bottom:1px solid var(--line)}
+.news-card h3{font-family:'Playfair Display',serif;font-size:23px;line-height:1.25;margin:10px 0}
+.news-card p{font-size:14px;line-height:1.7;color:#666}
+.news-card a{color:var(--red);font-size:12px;font-weight:800}
+.news-card a:hover{text-decoration:underline}
+.news-category{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--red);text-transform:uppercase}
+@media(max-width:700px){.news-grid{grid-template-columns:1fr}}
 .about{margin-top:45px;background:#191919;color:white;padding:35px;display:grid;grid-template-columns:1fr 2fr;gap:25px;align-items:center}
 .about h2{font-family:'Playfair Display',serif;font-size:35px;margin:0}
 .about p{font-size:14px;line-height:1.8;color:#ccc}
