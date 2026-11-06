@@ -206,17 +206,42 @@ nav a:hover{color:var(--red)}
 }
 
 .topic-news{
+  width:100%;
+  max-width:100%;
+  min-width:0;
   padding:5px 16px 12px;
+  overflow:hidden;
+  box-sizing:border-box;
 }
 
 .topic-news:empty{
   display:none;
 }
 
+
 .news-card{
+  display:block;
+  width:100%;
+  max-width:100%;
+  min-width:0;
   padding:17px 0;
   border-bottom:1px solid var(--line);
+  overflow:hidden;
+  box-sizing:border-box;
 }
+
+.news-image{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:16 / 9;
+  object-fit:cover;
+  border-radius:8px;
+  margin:0 0 16px;
+  box-sizing:border-box;
+}
+
 
 .news-card:last-child{
   border-bottom:none;
