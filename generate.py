@@ -638,6 +638,129 @@ def generate_edition(news):
 
     return edition
 
+def find_nasa_video(space_article):
+    """
+    Ищет подходящее видео в официальной библиотеке NASA.
+    При ошибке возвращает пустой словарь, не останавливая выпуск.
+    """
+
+    try:
+        search_terms = str(
+            space_article.get("nasa_search", "")
+            or space_article.get("topic", "")
+            or space_article.get("title", "")
+        ).strip()
+
+        if not search_terms:
+            print("Нет поисковых слов для NASA")
+            return {}
+
+        search_url = (
+            "https://images-api.nasa.gov/search?"
+            + urlencode({
+                "q": search_terms,
+                "media_type": "video",
+                "page_size": 10
+            })
+        )
+
+        request = urllib.request.Request(
+            search_url,
+            headers=HEADERS
+        )
+
+        with urllib.request.urlopen(
+            request,
+            timeout=25
+        ) as response:
+            search_data = json.loads(
+                response.read().decode("utf-8")
+            )
+
+        items = search_data.get(
+            "collection", {}
+        ).get("items", [])
+
+        for item in items[:10]:
+
+            data_list = item.get("data", [])
+
+            if not data_list:
+                continue
+
+            metadata = data_list[0]
+            nasa_id = metadata.get("nasa_id", "")
+
+            if not nasa_id:
+                continue
+
+            asset_url = (
+                "https://images-api.nasa.gov/asset/"
+                + quote(nasa_id, safe="")
+            )
+
+            asset_request = urllib.request.Request(
+                asset_url,
+                headers=HEADERS
+            )
+
+            with urllib.request.urlopen(
+                asset_request,
+                timeout=25
+            ) as response:
+                asset_data = json.loads(
+                    response.read().decode("utf-8")
+                )
+
+            assets = asset_data.get(
+                "collection", {}
+            ).get("items", [])
+
+            video_links = []
+
+            for asset in assets:
+                video_url = asset.get("href", "")
+
+                if video_url.lower().endswith(".mp4"):
+                    video_links.append(video_url)
+
+            if not video_links:
+                continue
+
+            preferred_video = next(
+                (
+                    url for suffix in (
+                        "~medium.mp4",
+                        "~small.mp4",
+                        "~large.mp4"
+                    )
+                    for url in video_links
+                    if suffix in url.lower()
+                ),
+                video_links[0]
+            )
+
+            print(
+                "Найдена космическая анимация NASA:",
+                metadata.get("title", "")
+            )
+
+            return {
+                "video": preferred_video,
+                "video_title": metadata.get("title", ""),
+                "video_source": "NASA Image and Video Library",
+                "video_page": (
+                    "https://images.nasa.gov/details/"
+                    + quote(nasa_id, safe="")
+                )
+            }
+
+        print("Подходящее видео NASA не найдено")
+        return {}
+
+    except Exception as error:
+        print("Ошибка поиска видео NASA:", error)
+        return {}
 
 def main():
     news = collect_news()
