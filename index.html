@@ -169,5 +169,77 @@ updateClock();
 setInterval(updateClock,1000);
 document.getElementById("year").textContent=new Date().getFullYear();
 </script>
+<script>
+async function loadEdition() {
+  const container = document.getElementById("news-container");
+  const dateElement = document.getElementById("edition-date");
+
+  try {
+    const response = await fetch("data/edition.json?t=" + Date.now());
+
+    if (!response.ok) {
+      throw new Error("Выпуск пока недоступен");
+    }
+
+    const edition = await response.json();
+
+    dateElement.textContent = "Выпуск от " + edition.date;
+
+    if (!edition.articles || edition.articles.length === 0) {
+      container.textContent = "В этом выпуске пока нет статей.";
+      return;
+    }
+
+    const groups = {};
+
+    edition.articles.forEach(article => {
+      if (!groups[article.category]) {
+        groups[article.category] = [];
+      }
+      groups[article.category].push(article);
+    });
+
+    container.innerHTML = Object.entries(groups).map(([category, articles]) => `
+      <h2 class="section-title">${escapeHTML(category)}</h2>
+      <div class="news-grid">
+        ${articles.map(article => `
+          <article class="news-card">
+            <div class="news-category">${escapeHTML(article.source || category)}</div>
+            <h3>${escapeHTML(article.title)}</h3>
+            <p>${escapeHTML(article.summary)}</p>
+            <a href="${safeURL(article.url)}" target="_blank" rel="noopener noreferrer">ЧИТАТЬ ИСТОЧНИК →</a>
+          </article>
+        `).join("")}
+      </div>
+    `).join("");
+
+  } catch (error) {
+    console.error(error);
+    dateElement.textContent = "Не удалось загрузить выпуск.";
+    container.textContent = "Попробуйте обновить страницу позже.";
+  }
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function safeURL(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? escapeHTML(url.href) : "#";
+  } catch {
+    return "#";
+  }
+}
+
+loadEdition();
+</script>
 </body>
 </html>
