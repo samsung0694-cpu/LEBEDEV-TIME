@@ -8,7 +8,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 
 from html.parser import HTMLParser
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, urlencode, quote
 from datetime import datetime, timezone, timedelta
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from google import genai
