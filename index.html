@@ -1,1229 +1,474 @@
- 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LEBEDEV TIME — Журнал о главном</title>
-<meta name="description" content="LEBEDEV TIME — журнал о мире, праве, обществе, экономике, технологиях и Калининграде.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --red:#e31b23;
-  --black:#171717;
-  --gray:#777;
-  --paper:#f7f6f2;
-  --line:#dedbd5;
+/* LEBEDEV TIME — NEWS */
+
+.latest-news-section { margin: 35px 0; }
+
+.latest-news-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:3px solid #111;
+  padding-bottom:12px;
+  margin-bottom:18px;
 }
 
-* { box-sizing:border-box; }
-
-body {
+.latest-news-header h2 {
   margin:0;
-  background:var(--paper);
-  color:var(--black);
-  font-family:'DM Sans',sans-serif;
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:-1px;
 }
 
-a { color:inherit; text-decoration:none; }
-
-.topline {
-  background:var(--black);
-  color:white;
-  padding:9px 5%;
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  letter-spacing:1px;
-}
-
-header {
-  padding:24px 5% 16px;
-  border-bottom:1px solid var(--line);
-}
-
-.brand {
-  text-align:center;
-  font-family:'Playfair Display',serif;
-  font-size:clamp(38px,8vw,76px);
-  font-weight:800;
-  letter-spacing:-3px;
-  line-height:1;
-}
-
-.brand span { color:var(--red); }
-
-.tagline {
-  text-align:center;
-  margin-top:9px;
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--gray);
-}
-
-nav {
-  display:flex;
-  justify-content:center;
-  gap:22px;
-  flex-wrap:wrap;
-  padding:15px 5%;
-  border-bottom:3px solid var(--black);
-  font-size:12px;
-  font-weight:700;
-  text-transform:uppercase;
-}
-
-nav a:hover { color:var(--red); }
-
-.container {
-  max-width:1180px;
-  margin:auto;
-  padding:30px 22px;
-}
-
-.kicker {
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:var(--red);
-}
-
-.hero {
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:35px;
-  align-items:center;
-  padding:15px 0 38px;
-  border-bottom:1px solid var(--line);
-}
-
-.hero h1 {
-  font-family:'Playfair Display',serif;
-  font-size:clamp(38px,6vw,68px);
-  line-height:1.03;
-  letter-spacing:-2px;
-  margin:15px 0;
-}
-
-.hero p {
-  font-size:16px;
-  line-height:1.8;
-  color:#555;
-  max-width:550px;
-}
-
-.byline {
-  font-size:11px;
-  color:var(--gray);
-  margin-top:20px;
-}
-
-/* ФИНАНСОВАЯ ПАНЕЛЬ */
-
-.market-panel {
-  width:100%;
-  min-height:430px;
-  background:#171717;
-  color:white;
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  overflow:hidden;
-  border-top:5px solid var(--red);
-  box-shadow:0 12px 30px rgba(0,0,0,.12);
-}
-
-.market-panel-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.3px;
-}
-
-.market-live {
-  color:#69d58b;
-  white-space:nowrap;
-}
-
-.market-live i {
-  display:inline-block;
-  width:7px;
-  height:7px;
-  background:#69d58b;
-  border-radius:50%;
-  margin-right:5px;
-  animation:live-pulse 1.5s infinite;
-}
-
-@keyframes live-pulse {
-  50% { opacity:.35; }
-}
-
-.market-heading {
-  font-family:'Playfair Display',serif;
-  font-size:27px;
-  line-height:1.15;
-  margin:35px 0 0;
-}
-
-.market-description {
-  color:#999;
-  font-size:11px;
-  line-height:1.6;
-  margin-top:9px;
-}
-
-.market-window {
-  overflow:hidden;
-  width:100%;
-  margin:28px 0;
-}
-
-.market-ticker-track {
-  display:flex;
-  width:max-content;
-  animation:market-scroll 38s linear infinite;
-}
-
-.market-ticker-track:hover {
-  animation-play-state:paused;
-}
-
-.market-ticker-set {
-  display:flex;
-  align-items:stretch;
-  gap:28px;
-  padding-right:28px;
-}
-
-.market-item {
-  min-width:155px;
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-  border-left:2px solid var(--red);
-  padding-left:12px;
-}
-
-.market-item-name {
-  font-size:10px;
-  color:#aaa;
-  font-weight:800;
-  letter-spacing:1px;
-}
-
-.market-item strong {
-  font-family:'Playfair Display',serif;
-  font-size:22px;
-  color:white;
-  white-space:nowrap;
-}
-
-.market-item small {
+.news-edition-date {
   font-size:10px;
   color:#888;
-}
-
-.market-change {
-  font-size:10px;
-  font-weight:700;
-}
-
-.market-change.up { color:#69d58b; }
-.market-change.down { color:#ff7777; }
-
-@keyframes market-scroll {
-  from { transform:translateX(0); }
-  to { transform:translateX(-50%); }
-}
-
-.market-footer {
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  border-top:1px solid #444;
-  padding-top:14px;
-  color:#999;
-  font-size:9px;
-  letter-spacing:.7px;
-}
-
-.market-sources {
-  margin-top:12px;
-  font-size:9px;
-  line-height:1.6;
-  color:#777;
-}
-
-.market-sources a {
-  color:#aaa;
-  text-decoration:underline;
-}
-
-.section-title {
-  font-family:'Playfair Display',serif;
-  font-size:30px;
-  margin:36px 0 20px;
-  border-bottom:3px solid var(--black);
-  padding-bottom:10px;
-}
-
-/* РУБРИКИ */
-
-.topics-grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:9px 14px;
-  margin-top:20px;
-}
-
-.topic {
-  border:1px solid var(--line);
-  background:#fff;
-  min-width:0;
-  align-self:start;
-}
-
-.topic summary {
-  list-style:none;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-height:54px;
-  padding:12px 14px;
-  font-size:12px;
-  font-weight:800;
+  text-transform:uppercase;
   letter-spacing:1px;
-  transition:.2s;
 }
 
-.topic summary::-webkit-details-marker {
-  display:none;
+.latest-news-layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(250px,.95fr);
+  gap:24px;
 }
 
-.topic summary:hover { color:var(--red); }
-
-.topic summary span {
-  color:var(--red);
-  font-family:'Playfair Display',serif;
-  font-size:19px;
-  font-weight:700;
-}
-
-.topic summary b {
-  margin-left:auto;
-  color:var(--red);
-  font-size:19px;
-  font-weight:400;
-}
-
-.topic[open] {
-  border-color:var(--red);
-  grid-column:1 / -1;
-}
-
-.topic[open] summary {
-  border-bottom:1px solid var(--line);
-  background:#fff;
-}
-
-.topic[open] summary b {
-  transform:rotate(45deg);
-}
-
-.topic-news {
-  width:100%;
-  max-width:100%;
+.news-list-column {
   min-width:0;
-  padding:5px 16px 12px;
-  overflow:hidden;
+  padding-right:20px;
+  border-right:1px solid #ddd;
 }
 
-.topic-news:empty { display:none; }
-
-.news-card {
-  display:block;
-  width:100%;
-  max-width:100%;
-  min-width:0;
-  padding:17px 0;
-  border-bottom:1px solid var(--line);
-  overflow:hidden;
-}
-
-.news-image {
-  display:block;
-  width:100%;
-  max-width:100%;
-  height:auto;
-  aspect-ratio:16 / 9;
-  object-fit:cover;
-  border-radius:8px;
-  margin:0 0 16px;
-}
-
-.news-card:last-child { border-bottom:none; }
-
-.news-category {
+.news-column-label {
   font-size:10px;
-  font-weight:800;
+  font-weight:900;
   letter-spacing:1.5px;
-  color:var(--red);
+  color:#888;
   text-transform:uppercase;
+  margin-bottom:10px;
 }
 
-.news-card h3 {
-  font-family:'Playfair Display',serif;
-  font-size:21px;
-  line-height:1.3;
-  margin:8px 0;
-}
-
-.news-card p {
-  font-size:13px;
-  line-height:1.7;
-  color:#666;
-  margin:8px 0;
-}
-
-.news-card a {
-  color:var(--red);
-  font-size:11px;
-  font-weight:800;
-}
-
-.news-card a:hover { text-decoration:underline; }
-
-.news-empty {
-  padding:16px 0;
-  color:#777;
-  font-size:13px;
-}
-
-#edition-date { margin:14px 0 5px; }
-#other-news { margin-top:25px; }
-
-/* ПОЛНЫЙ ТЕКСТ СТАТЬИ */
-
-.article-details { margin-top:14px; }
-
-.article-details summary {
-  display:inline-block;
+.news-list-item {
+  padding:13px 0;
+  border-bottom:1px solid #e5e5e5;
   cursor:pointer;
-  list-style:none;
-  color:var(--red);
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:1px;
+}
+
+.news-list-item:hover .news-list-title,
+.news-feature-card:hover .news-feature-title {
+  color:#a61920;
+}
+
+.news-list-meta {
+  font-size:10px;
+  color:#888;
   text-transform:uppercase;
-  padding:8px 0;
+  margin-bottom:5px;
 }
 
-.article-details summary::-webkit-details-marker {
-  display:none;
+.news-list-title {
+  font-size:15px;
+  font-weight:850;
+  line-height:1.3;
+  margin:0 0 5px;
 }
 
-.article-details[open] summary { margin-bottom:10px; }
-
-.article-full {
-  font-size:14px;
-  line-height:1.8;
-  color:#333;
-  padding-top:8px;
-}
-
-.article-full p { margin:0 0 14px; }
-
-.article-source {
-  border-top:1px solid var(--line);
-  padding-top:12px;
-  font-size:11px;
-  color:var(--gray);
-}
-
-.article-source a {
-  color:var(--red);
-  font-weight:700;
-}
-
-/* О ПРОЕКТЕ */
-
-.about {
-  margin-top:45px;
-  background:#191919;
-  color:white;
-  padding:35px;
-  display:grid;
-  grid-template-columns:1fr 2fr;
-  gap:25px;
-  align-items:center;
-}
-
-.about h2 {
-  font-family:'Playfair Display',serif;
-  font-size:35px;
+.news-list-summary {
+  font-size:12px;
+  line-height:1.45;
+  color:#777;
   margin:0;
 }
 
-.about p {
-  font-size:14px;
-  line-height:1.8;
-  color:#ccc;
+.news-feature-card {
+  margin-bottom:22px;
+  cursor:pointer;
 }
 
-footer {
-  background:var(--black);
-  color:#aaa;
-  padding:25px 5%;
-  text-align:center;
-  font-size:11px;
+.news-feature-image {
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  margin-bottom:9px;
+  background:#eee;
+}
+
+.news-feature-tag {
+  color:#a61920;
+  font-size:10px;
+  font-weight:900;
   letter-spacing:1px;
-  margin-top:40px;
+  text-transform:uppercase;
 }
 
-footer strong { color:white; }
+.news-feature-title {
+  font-size:19px;
+  font-weight:900;
+  line-height:1.2;
+  margin:6px 0;
+}
 
-/* МОБИЛЬНАЯ ВЕРСИЯ */
+.news-feature-summary {
+  font-size:12px;
+  line-height:1.5;
+  color:#666;
+}
+
+.news-feature-bullets {
+  padding-left:17px;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.news-breaking-label {
+  display:inline-block;
+  background:#a61920;
+  color:#fff;
+  padding:4px 7px;
+  font-size:9px;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+.news-empty {
+  padding:20px 0;
+  color:#888;
+  font-size:13px;
+}
+
+/* NEWS MODAL */
+
+.news-modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.news-modal.is-open { display:flex; }
+
+.news-modal-backdrop {
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(4px);
+}
+
+.news-modal-dialog {
+  position:relative;
+  z-index:2;
+  width:min(760px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:#fff;
+  color:#171717;
+  padding:27px;
+  border-radius:4px;
+  box-shadow:0 20px 80px rgba(0,0,0,.3);
+}
+
+.news-modal-close {
+  position:sticky;
+  float:right;
+  top:0;
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
+  background:#171717;
+  color:#fff;
+  font-size:25px;
+  cursor:pointer;
+  margin:-12px -12px 8px 10px;
+}
+
+.news-modal-category {
+  color:#a61920;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.news-modal-title {
+  font-size:30px;
+  line-height:1.15;
+  margin:10px 0;
+}
+
+.news-modal-image {
+  width:100%;
+  max-height:340px;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  margin:12px 0;
+}
+
+.news-modal-text {
+  font-size:15px;
+  line-height:1.7;
+  color:#444;
+  white-space:pre-line;
+}
+
+.news-modal-source {
+  display:inline-block;
+  margin-top:18px;
+  padding:11px 15px;
+  background:#171717;
+  color:white!important;
+  text-decoration:none!important;
+  font-size:11px;
+  font-weight:800;
+}
+
+body.news-modal-open { overflow:hidden; }
 
 @media(max-width:700px) {
-  .topline {
-    font-size:9px;
-    padding:9px 12px;
+  .latest-news-layout { grid-template-columns:1fr; }
+  .news-list-column {
+    border-right:0;
+    padding-right:0;
   }
-
-  header { padding:22px 10px 15px; }
-
-  .brand { letter-spacing:-2px; }
-
-  nav {
-    gap:13px;
-    font-size:10px;
-    padding:13px 8px;
+  .news-feature-column {
+    border-top:2px solid #111;
+    padding-top:18px;
   }
-
-  .container { padding:22px 14px; }
-
-  .hero {
-    grid-template-columns:1fr;
-    gap:20px;
-  }
-
-  .hero h1 { font-size:43px; }
-
-  .market-panel {
-    min-height:300px;
+  .news-modal-dialog {
     padding:18px;
+    max-height:94vh;
   }
-
-  .market-heading { font-size:24px; }
-
-  .market-item { min-width:135px; }
-
-  .market-item strong { font-size:19px; }
-
-  .topics-grid {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:7px;
-  }
-
-  .topic summary {
-    min-height:49px;
-    padding:10px 8px;
-    gap:6px;
-    font-size:10px;
-    letter-spacing:.4px;
-  }
-
-  .topic summary span { font-size:16px; }
-  .topic summary b { font-size:16px; }
-
-  .topic-news { padding:5px 11px 10px; }
-
-  .topic[open] { grid-column:1 / -1; }
-
-  .news-card h3 { font-size:19px; }
-
-  .about {
-    grid-template-columns:1fr;
-    padding:25px;
-  }
-
-  .section-title { font-size:27px; }
-}
-
-@media(prefers-reduced-motion:reduce) {
-  .market-ticker-track,
-  .market-live i {
-    animation:none;
-  }
+  .news-modal-title { font-size:24px; }
 }
 </style>
-</head>
 
-<body>
+<section id="latest-news" class="latest-news-section">
 
-<div class="topline">
-  <span>LEBEDEV MEDIA GROUP</span>
-  <span id="clock">МОСКВА</span>
+  <div class="latest-news-header">
+    <h2>НОВОСТИ</h2>
+    <div class="news-edition-date" id="edition-date">
+      Загрузка выпуска...
+    </div>
+  </div>
+
+  <div class="latest-news-layout">
+
+    <div class="news-list-column">
+      <div class="news-column-label">Последние события</div>
+      <div id="news-list">
+        <div class="news-empty">Загружаем новости...</div>
+      </div>
+    </div>
+
+    <div class="news-feature-column">
+      <div class="news-column-label">Главное сегодня</div>
+      <div id="featured-news">
+        <div class="news-empty">Загружаем главные материалы...</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="news-modal" id="news-modal" aria-hidden="true">
+  <div class="news-modal-backdrop"></div>
+  <div class="news-modal-dialog" role="dialog" aria-modal="true">
+    <button class="news-modal-close" type="button"
+      aria-label="Закрыть">&times;</button>
+    <div id="news-modal-content"></div>
+  </div>
 </div>
 
-<header>
-  <div class="brand">LEBEDEV<span> TIME</span></div>
-  <div class="tagline">Время понимать главное</div>
-</header>
-
-<nav>
-  <a href="#main">Главное</a>
-  <a href="#politics">Мир</a>
-  <a href="#law">Право</a>
-  <a href="#society">Общество</a>
-  <a href="#economy">Экономика</a>
-  <a href="#technology">Технологии</a>
-  <a href="#mind">Психология</a>
-  <a href="#stories">Загадки</a>
-  <a href="#kaliningrad">Калининград</a>
-</nav>
-
-<main class="container">
-
-<section class="hero" id="main">
-  <div>
-    <div class="kicker">Главная тема · LEBEDEV TIME</div>
-    <h1>Мир меняется.<br>Важно понимать почему.</h1>
-    <p>Новости, аналитика и истории о людях, обществе и событиях, которые формируют наше настоящее и будущее.</p>
-    <div class="byline">LEBEDEV TIME · ЛИЧНЫЙ РЕДАКЦИОННЫЙ ПРОЕКТ</div>
-  </div>
-
-  <div class="market-panel">
-    <div class="market-panel-head">
-      <span>LEBEDEV TIME · MARKET WATCH</span>
-      <span class="market-live"><i></i> LIVE</span>
-    </div>
-
-    <div>
-      <div class="market-heading">Мировые рынки</div>
-      <div class="market-description">
-        Криптовалюты · Драгоценные металлы · Валюты
-      </div>
-    </div>
-
-    <div class="market-window">
-      <div class="market-ticker-track" id="market-ticker-track">
-        <div class="market-ticker-set" id="market-ticker-set"></div>
-        <div class="market-ticker-set" id="market-ticker-copy" aria-hidden="true"></div>
-      </div>
-    </div>
-
-    <div>
-      <div class="market-footer">
-        <span id="market-updated">Загрузка котировок...</span>
-        <span>MARKET DATA</span>
-      </div>
-      <div class="market-sources">
-        Источники:
-        <a href="https://www.binance.com/" target="_blank" rel="noopener">Binance</a> ·
-        <a href="https://xaus.com/api/" target="_blank" rel="noopener">XAUS</a> ·
-        <a href="https://www.exchangerate-api.com/" target="_blank" rel="noopener">Rates By Exchange Rate API</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="categories">
-
-  <h2 class="section-title">Новости</h2>
-
-  <div id="edition-date" class="byline">Загрузка выпуска...</div>
-
-  <div class="topics-grid">
-
-    <details class="topic" id="politics">
-      <summary><span>01</span> МИР <b>+</b></summary>
-      <div class="topic-news" data-category="politics"></div>
-    </details>
-
-    <details class="topic" id="law">
-      <summary><span>02</span> ПРАВО <b>+</b></summary>
-      <div class="topic-news" data-category="law"></div>
-    </details>
-
-    <details class="topic" id="society">
-      <summary><span>03</span> ОБЩЕСТВО <b>+</b></summary>
-      <div class="topic-news" data-category="society"></div>
-    </details>
-
-    <details class="topic" id="economy">
-      <summary><span>04</span> ЭКОНОМИКА <b>+</b></summary>
-      <div class="topic-news" data-category="economy"></div>
-    </details>
-
-    <details class="topic" id="technology">
-      <summary><span>05</span> ТЕХНОЛОГИИ <b>+</b></summary>
-      <div class="topic-news" data-category="technology"></div>
-    </details>
-
-    <details class="topic" id="mind">
-      <summary><span>06</span> ПСИХОЛОГИЯ <b>+</b></summary>
-      <div class="topic-news" data-category="mind"></div>
-    </details>
-
-    <details class="topic" id="stories">
-      <summary><span>07</span> ЗАГАДКИ <b>+</b></summary>
-      <div class="topic-news" data-category="stories"></div>
-    </details>
-
-    <details class="topic" id="kaliningrad">
-      <summary><span>08</span> КАЛИНИНГРАД <b>+</b></summary>
-      <div class="topic-news" data-category="kaliningrad"></div>
-    </details>
-
-  </div>
-
-  <section id="other-news" hidden>
-    <h2 class="section-title">Другие материалы выпуска</h2>
-    <div id="other-news-container"></div>
-  </section>
-
-</section>
-
-<section class="about">
-  <h2>LEBEDEV TIME</h2>
-  <p>Это авторский медиапроект о том, что действительно заслуживает внимания. Мы стремимся смотреть глубже заголовков, отделять факты от мнений и находить смысл в происходящем. <strong>Время понимать главное.</strong></p>
-</section>
-
-</main>
-
-<footer>
-  <strong>LEBEDEV TIME</strong><br><br>
-  ВРЕМЯ ПОНИМАТЬ ГЛАВНОЕ<br><br>
-  © <span id="year"></span> LEBEDEV TIME
-</footer>
-
 <script>
+(() => {
+  const list = document.getElementById("news-list");
+  const featured = document.getElementById("featured-news");
+  const date = document.getElementById("edition-date");
+  const modal = document.getElementById("news-modal");
+  const modalContent = document.getElementById("news-modal-content");
 
-/* ЧАСЫ И ДАТА */
+  if (!list || !featured || !modal || !modalContent) return;
 
-function updateClock() {
-  const now = new Date();
+  let articles = [];
 
-  const moscow = new Date(
-    now.toLocaleString("en-US", {
-      timeZone:"Europe/Moscow"
-    })
-  );
+  const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#039;"
+  })[c]);
 
-  document.getElementById("clock").textContent =
-    "МОСКВА · " +
-    moscow.toLocaleTimeString("ru-RU", {
-      hour:"2-digit",
-      minute:"2-digit"
-    });
-}
-
-updateClock();
-setInterval(updateClock, 1000);
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
-
-
-/* РАСКРЫТИЕ ТОЛЬКО ОДНОЙ РУБРИКИ */
-
-document.querySelectorAll(".topic").forEach(topic => {
-  topic.addEventListener("toggle", () => {
-    if (topic.open) {
-      document.querySelectorAll(".topic").forEach(other => {
-        if (other !== topic) {
-          other.open = false;
-        }
-      });
+  function safeUrl(value) {
+    try {
+      const url = new URL(value);
+      return ["https:", "http:"].includes(url.protocol) ? url.href : "";
+    } catch {
+      return "";
     }
+  }
+
+  const category = a => a.category || "Новости";
+  const summary = a => a.summary || a.description || "";
+  const fullText = a => a.content || a.fullText || a.text || summary(a);
+  const image = a => safeUrl(a.image_small || a.thumbnail || a.image);
+  const urgent = a => Boolean(a.urgent || a.breaking);
+  const important = a => Boolean(a.featured || a.important);
+
+  function openNews(index) {
+    const a = articles[index];
+    if (!a) return;
+
+    const img = image(a);
+    const source = safeUrl(a.url);
+
+    modalContent.innerHTML = `
+      <div class="news-modal-category">${esc(category(a))}</div>
+      <h2 class="news-modal-title">${esc(a.title)}</h2>
+      ${img ? `<img class="news-modal-image"
+        src="${esc(img)}" alt="${esc(a.title)}"
+        loading="eager" decoding="async">` : ""}
+      <div class="news-modal-text">${esc(fullText(a))}</div>
+      ${a.source ? `<p style="color:#888;font-size:12px">
+        Источник: ${esc(a.source)}</p>` : ""}
+      ${source ? `<a class="news-modal-source"
+        href="${esc(source)}" target="_blank"
+        rel="noopener noreferrer">
+        ПЕРЕЙТИ К ПЕРВОИСТОЧНИКУ →
+      </a>` : ""}
+    `;
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("news-modal-open");
+  }
+
+  function closeNews() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("news-modal-open");
+  }
+
+  modal.querySelector(".news-modal-close")
+    .addEventListener("click", closeNews);
+
+  modal.querySelector(".news-modal-backdrop")
+    .addEventListener("click", closeNews);
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeNews();
   });
-});
 
-
-/* ФИНАНСОВАЯ СТРОКА */
-
-const marketItems = [
-  {
-    key:"BTC",
-    name:"BITCOIN",
-    pair:"BTC / USDT",
-    unit:"USDT"
-  },
-  {
-    key:"ETH",
-    name:"ETHEREUM",
-    pair:"ETH / USDT",
-    unit:"USDT"
-  },
-  {
-    key:"GOLD",
-    name:"ЗОЛОТО",
-    pair:"XAU / USD · ТРОЙСКАЯ УНЦИЯ",
-    unit:"USD"
-  },
-  {
-    key:"SILVER",
-    name:"СЕРЕБРО",
-    pair:"XAG / USD · ТРОЙСКАЯ УНЦИЯ",
-    unit:"USD"
-  },
-  {
-    key:"USD",
-    name:"ДОЛЛАР США",
-    pair:"USD / RUB",
-    unit:"RUB"
-  },
-  {
-    key:"EUR",
-    name:"ЕВРО",
-    pair:"EUR / RUB",
-    unit:"RUB"
-  }
-];
-
-const marketValues = {
-  BTC:null,
-  ETH:null,
-  GOLD:null,
-  SILVER:null,
-  USD:null,
-  EUR:null
-};
-
-const marketChanges = {
-  BTC:null,
-  ETH:null
-};
-
-function formatMarketPrice(value, key) {
-  if (!Number.isFinite(Number(value))) {
-    return "Нет данных";
-  }
-
-  const digits =
-    key === "USD" || key === "EUR" ? 2 : 2;
-
-  const formatted = new Intl.NumberFormat("ru-RU", {
-    minimumFractionDigits:digits,
-    maximumFractionDigits:digits
-  }).format(value);
-
-  if (key === "BTC" || key === "ETH") {
-    return formatted + " USDT";
-  }
-
-  if (key === "GOLD" || key === "SILVER") {
-    return "$" + formatted;
-  }
-
-  return formatted + " ₽";
-}
-
-function createMarketCards() {
-  return marketItems.map(item => {
-    const value = marketValues[item.key];
-    const price = value === null
-      ? "Загрузка..."
-      : formatMarketPrice(value, item.key);
-
-    let changeHTML = "";
-
-    if (
-      (item.key === "BTC" || item.key === "ETH") &&
-      marketChanges[item.key] !== null
-    ) {
-      const change = marketChanges[item.key];
-      const direction = change >= 0 ? "up" : "down";
-      const sign = change > 0 ? "+" : "";
-
-      changeHTML = `
-        <div class="market-change ${direction}">
-          ${sign}${change.toFixed(2)}% за 24 ч.
-        </div>
-      `;
-    }
+  function featureCard(a, index, label) {
+    const img = image(a);
+    const bullets = Array.isArray(a.bullets) ? a.bullets : [];
 
     return `
-      <div class="market-item">
-        <span class="market-item-name">${item.name}</span>
-        <strong>${price}</strong>
-        <small>${item.pair}</small>
-        ${changeHTML}
-      </div>
+      <article class="news-feature-card" data-news="${index}">
+        ${urgent(a) ? '<div class="news-breaking-label">СРОЧНО</div>' : ""}
+        ${img ? `<img class="news-feature-image"
+          src="${esc(img)}" alt="${esc(a.title)}"
+          loading="lazy" decoding="async">` : ""}
+        <div class="news-feature-tag">${esc(label)}</div>
+        <h3 class="news-feature-title">${esc(a.title)}</h3>
+        <p class="news-feature-summary">${esc(summary(a))}</p>
+        ${bullets.length ? `<ul class="news-feature-bullets">
+          ${bullets.slice(0,4).map(x => `<li>${esc(x)}</li>`).join("")}
+        </ul>` : ""}
+      </article>
     `;
-  }).join("");
-}
-
-function renderMarketTicker() {
-  const html = createMarketCards();
-
-  document.getElementById("market-ticker-set").innerHTML = html;
-  document.getElementById("market-ticker-copy").innerHTML = html;
-}
-
-function updateMarketStatus(text) {
-  document.getElementById("market-updated").textContent = text;
-}
-
-function formatUpdateTime() {
-  return new Date().toLocaleTimeString("ru-RU", {
-    hour:"2-digit",
-    minute:"2-digit",
-    second:"2-digit"
-  });
-}
-
-async function fetchMarketJSON(url) {
-  const response = await fetch(url, {
-    cache:"no-store"
-  });
-
-  if (!response.ok) {
-    throw new Error("Ошибка загрузки: " + response.status);
   }
 
-  return await response.json();
-}
-
-
-/* BITCOIN И ETHEREUM — BINANCE */
-
-async function loadCryptoPrices() {
-  try {
-    const url =
-      "https://data-api.binance.vision/api/v3/ticker/24hr" +
-      "?symbols=%5B%22BTCUSDT%22,%22ETHUSDT%22%5D";
-
-    const data = await fetchMarketJSON(url);
-
-    data.forEach(item => {
-      if (item.symbol === "BTCUSDT") {
-        marketValues.BTC = Number(item.lastPrice);
-        marketChanges.BTC = Number(item.priceChangePercent);
-      }
-
-      if (item.symbol === "ETHUSDT") {
-        marketValues.ETH = Number(item.lastPrice);
-        marketChanges.ETH = Number(item.priceChangePercent);
-      }
-    });
-
-    renderMarketTicker();
-    updateMarketStatus("Криптовалюты обновлены · " + formatUpdateTime());
-
-  } catch (error) {
-    console.error("Ошибка криптовалют:", error);
-  }
-}
-
-
-/* ЗОЛОТО И СЕРЕБРО — XAUS */
-
-async function loadMetalPrices() {
-  try {
-    const data = await fetchMarketJSON(
-      "https://xaus.com/api/v1/spot"
-    );
-
-    if (Number.isFinite(Number(data.spot_usd_oz))) {
-      marketValues.GOLD = Number(data.spot_usd_oz);
-    }
-
-    if (Number.isFinite(Number(data.silver_usd_oz))) {
-      marketValues.SILVER = Number(data.silver_usd_oz);
-    }
-
-    renderMarketTicker();
-    updateMarketStatus("Котировки обновлены · " + formatUpdateTime());
-
-  } catch (error) {
-    console.error("Ошибка металлов:", error);
-  }
-}
-
-
-/* ДОЛЛАР И ЕВРО — КУРС К РУБЛЮ */
-
-async function loadCurrencyRates() {
-  try {
-    const data = await fetchMarketJSON(
-      "https://open.er-api.com/v6/latest/USD"
-    );
-
-    if (
-      data.result !== "success" ||
-      !data.rates ||
-      !data.rates.RUB ||
-      !data.rates.EUR
-    ) {
-      throw new Error("Нет необходимых валютных курсов");
-    }
-
-    const usdRub = Number(data.rates.RUB);
-    const eurUsd = Number(data.rates.EUR);
-
-    marketValues.USD = usdRub;
-    marketValues.EUR = usdRub / eurUsd;
-
-    renderMarketTicker();
-
-    updateMarketStatus(
-      "Валюты: данные на " +
-      (data.time_last_update_utc || "последнее обновление")
-    );
-
-  } catch (error) {
-    console.error("Ошибка валютных курсов:", error);
-  }
-}
-
-
-/* ЗАПУСК И АВТООБНОВЛЕНИЕ */
-
-renderMarketTicker();
-
-loadCryptoPrices();
-loadMetalPrices();
-loadCurrencyRates();
-
-/* Криптовалюты и металлы — примерно раз в минуту */
-
-setInterval(() => {
-  loadCryptoPrices();
-  loadMetalPrices();
-}, 60000);
-
-/* Валютные курсы — раз в 12 часов */
-
-setInterval(loadCurrencyRates, 12 * 60 * 60 * 1000);
-
-
-/* ЗАГРУЗКА НОВОСТЕЙ */
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[char]);
-}
-
-function safeURL(value) {
-  try {
-    const url = new URL(value);
-
-    return url.protocol === "https:"
-      ? escapeHTML(url.href)
-      : "#";
-
-  } catch {
-    return "#";
-  }
-}
-
-function getCategoryKey(category) {
-  const value = String(category || "").toLowerCase();
-
-  if (value.includes("калининград") || value.includes("балтий")) {
-    return "kaliningrad";
-  }
-
-  if (value.includes("полит")) {
-    return "politics";
-  }
-
-  if (value.includes("прав") || value.includes("закон")) {
-    return "law";
-  }
-
-  if (value.includes("обще")) {
-    return "society";
-  }
-
-  if (
-    value.includes("эконом") ||
-    value.includes("финанс") ||
-    value.includes("бизнес")
-  ) {
-    return "economy";
-  }
-
-  if (
-    value.includes("технолог") ||
-    value.includes("наук")
-  ) {
-    return "technology";
-  }
-
-  if (
-    value.includes("психолог") ||
-    value.includes("поведен")
-  ) {
-    return "mind";
-  }
-
-  if (
-    value.includes("необыч") ||
-    value.includes("загад") ||
-    value.includes("истор")
-  ) {
-    return "stories";
-  }
-
-  return null;
-}
-
-
-function createNewsCard(article) {
-  const imageURL = safeURL(article.image);
-  const sourceURL = safeURL(article.url);
-
-  const paragraphs = String(article.body || "")
-    .split(/\n\s*\n/)
-    .filter(p => p.trim())
-    .map(p => `<p>${escapeHTML(p.trim())}</p>`)
-    .join("");
-
-  return `
-    <article class="news-card">
-
-      ${imageURL && imageURL !== "#" ? `
-        <img
-          class="news-image"
-          src="${imageURL}"
-          alt="${escapeHTML(article.title || "Новость")}"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-        >
-      ` : ""}
-
-      <div class="news-category">
-        ${escapeHTML(article.source || article.category || "LEBEDEV TIME")}
-      </div>
-
-      <h3>${escapeHTML(article.title || "")}</h3>
-
-      <p>${escapeHTML(article.summary || "")}</p>
-
-      <details class="article-details">
-        <summary>ПОДРОБНЕЕ</summary>
-
-        <div class="article-full">
-          ${paragraphs || "<p>Полный текст статьи пока недоступен.</p>"}
-
-          ${sourceURL && sourceURL !== "#" ? `
-            <div class="article-source">
-              Источник:
-              <a href="${sourceURL}" target="_blank" rel="noopener noreferrer">
-                ${escapeHTML(article.source || "Первоисточник")}
-              </a>
-            </div>
-          ` : ""}
+  function listItem(a, index) {
+    return `
+      <article class="news-list-item" data-news="${index}"
+        tabindex="0" role="button">
+        <div class="news-list-meta">
+          ${urgent(a) ? '<b style="color:#a61920">СРОЧНО · </b>' : ""}
+          ${esc(category(a))}
         </div>
-      </details>
+        <h3 class="news-list-title">${esc(a.title)}</h3>
+        <p class="news-list-summary">${esc(summary(a))}</p>
+      </article>
+    `;
+  }
 
-    </article>
-  `;
-}
+  function render(data) {
+    articles = Array.isArray(data.articles) ? data.articles : [];
 
+    date.textContent = data.date
+      ? "Выпуск от " + data.date
+      : "Последние материалы";
 
-async function loadEdition() {
-  const dateElement = document.getElementById("edition-date");
+    if (!articles.length) {
+      list.innerHTML = '<div class="news-empty">Новостей пока нет.</div>';
+      featured.innerHTML = "";
+      return;
+    }
 
-  try {
-    const response = await fetch(
-      "data/edition.json?t=" + Date.now()
+    const selected = [];
+    const used = new Set();
+
+    function add(a, label) {
+      if (!a) return;
+      const i = articles.indexOf(a);
+      if (i < 0 || used.has(i)) return;
+      selected.push({ article:a, index:i, label });
+      used.add(i);
+    }
+
+    const urgentArticle = articles.find(urgent);
+    const importantArticle = articles.find(a => important(a) && a !== urgentArticle);
+    const kaliningradArticle = articles.find(a =>
+      /калининград/i.test((a.category || "") + " " + (a.title || "")) &&
+      a !== urgentArticle && a !== importantArticle
     );
 
-    if (!response.ok) {
-      throw new Error("Выпуск пока недоступен");
-    }
+    add(urgentArticle, "Экстренно");
+    add(importantArticle, "Главное");
+    add(kaliningradArticle, "Калининград");
 
-    const edition = await response.json();
+    if (!selected.length) add(articles[0], "Главное сегодня");
 
-    dateElement.textContent =
-      "ВЫПУСК ОТ " + edition.date;
+    featured.innerHTML = selected.map(x =>
+      featureCard(x.article, x.index, x.label)
+    ).join("");
 
-    const articles = edition.articles || [];
+    const remaining = articles
+      .map((a,i) => ({a,i}))
+      .filter(x => !used.has(x.i));
 
-    const groups = {
-      politics:[],
-      law:[],
-      society:[],
-      economy:[],
-      technology:[],
-      mind:[],
-      stories:[],
-      kaliningrad:[]
-    };
-
-    const otherArticles = [];
-
-    articles.forEach(article => {
-      const key = getCategoryKey(article.category);
-
-      if (key && groups[key]) {
-        groups[key].push(article);
-      } else {
-        otherArticles.push(article);
-      }
-    });
-
-    document.querySelectorAll(".topic-news").forEach(container => {
-      const key = container.dataset.category;
-      const group = groups[key] || [];
-
-      if (group.length === 0) {
-        container.innerHTML =
-          '<div class="news-empty">В этом выпуске пока нет материалов этой рубрики.</div>';
-      } else {
-        container.innerHTML =
-          group.map(createNewsCard).join("");
-      }
-    });
-
-    const otherSection = document.getElementById("other-news");
-
-    if (otherArticles.length > 0) {
-      otherSection.hidden = false;
-
-      document.getElementById("other-news-container").innerHTML =
-        otherArticles.map(createNewsCard).join("");
-    } else {
-      otherSection.hidden = true;
-      document.getElementById("other-news-container").innerHTML = "";
-    }
-
-  } catch (error) {
-    console.error(error);
-
-    dateElement.textContent = "Не удалось загрузить выпуск.";
-
-    document.querySelectorAll(".topic-news").forEach(container => {
-      container.innerHTML =
-        '<div class="news-empty">Не удалось загрузить новости. Попробуйте обновить страницу позже.</div>';
-    });
+    list.innerHTML = remaining.length
+      ? remaining.map(x => listItem(x.a,x.i)).join("")
+      : '<div class="news-empty">Все материалы представлены справа.</div>';
   }
-}
 
-loadEdition();
+  document.addEventListener("click", e => {
+    const item = e.target.closest("[data-news]");
+    if (item) openNews(Number(item.dataset.news));
+  });
 
+  document.addEventListener("keydown", e => {
+    if ((e.key === "Enter" || e.key === " ") &&
+        e.target.matches("[data-news]")) {
+      e.preventDefault();
+      openNews(Number(e.target.dataset.news));
+    }
+  });
+
+  async function loadNews() {
+    try {
+      const response = await fetch("data/edition.json?t=" + Date.now());
+      if (!response.ok) throw new Error("Ошибка загрузки выпуска");
+      render(await response.json());
+    } catch (error) {
+      console.error("LEBEDEV TIME:", error);
+      list.innerHTML =
+        '<div class="news-empty">Не удалось загрузить новости.</div>';
+      featured.innerHTML = "";
+    }
+  }
+
+  loadNews();
+})();
 </script>
-
-</body>
-</html>
