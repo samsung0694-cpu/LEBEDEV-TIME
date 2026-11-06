@@ -36,7 +36,7 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; LEBEDEV-TIME/1.0)"
 }
 
-MAX_NEWS = 40
+MAX_NEWS = 60
 
 
 def local_name(tag):
@@ -253,10 +253,15 @@ def fetch_article_page(article_url):
         return "", ""
 
 
+
 def collect_news():
-    items = []
+    # Собираем новости отдельно по каждому источнику,
+    # чтобы первая RSS-лента не вытесняла остальные.
+    feeds_items = []
 
     for feed_url in FEEDS:
+        current_feed = []
+
         try:
             print("Загрузка RSS:", feed_url)
 
@@ -277,8 +282,8 @@ def collect_news():
                 if local_name(element.tag) in ("item", "entry")
             ]
 
-            for entry in entries[:50]:
-
+            # Не более 8 материалов из одной ленты.
+            for entry in entries[:8]:
                 title = get_child_text(entry, {"title"})
 
                 link = ""
@@ -320,7 +325,7 @@ def collect_news():
                         ""
                     )
 
-                items.append({
+                current_feed.append({
                     "title": html.unescape(title),
                     "link": link,
                     "description": html.unescape(description),
@@ -328,22 +333,48 @@ def collect_news():
                     "image": image
                 })
 
+            print(
+                f"Получено из источника: {len(current_feed)}"
+            )
+
         except Exception as error:
             print(f"Ошибка RSS ({feed_url}): {error}")
 
+        feeds_items.append(current_feed)
+
+    # Чередуем источники: сначала по одной новости из каждой ленты,
+    # затем второй круг и так далее.
     unique_items = []
     seen_links = set()
+    max_per_feed = max(
+        (len(feed) for feed in feeds_items),
+        default=0
+    )
 
-    for item in items:
-        if item["link"] not in seen_links:
+    for position in range(max_per_feed):
+        for feed in feeds_items:
+            if position >= len(feed):
+                continue
+
+            item = feed[position]
+
+            if item["link"] in seen_links:
+                continue
+
             seen_links.add(item["link"])
             unique_items.append(item)
 
-    unique_items = unique_items[:MAX_NEWS]
+            if len(unique_items) >= 60:
+                break
 
-    print("Найдено материалов:", len(unique_items))
+        if len(unique_items) >= 60:
+            break
+
+    print("Всего найдено уникальных материалов:", len(unique_items))
+    print("Количество источников:", len(FEEDS))
 
     return unique_items
+
 
 
 def prepare_article_material(item):
