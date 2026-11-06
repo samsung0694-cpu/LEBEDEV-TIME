@@ -5,9 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LEBEDEV TIME — Журнал о главном</title>
-<meta name="description" content="LEBEDEV TIME — независимый взгляд на события, право, общество, экономику и жизнь.">
+<meta name="description" content="LEBEDEV TIME — журнал о мире, праве, обществе, экономике, технологиях и Калининграде.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --red:#e31b23;
@@ -16,61 +18,365 @@
   --paper:#f7f6f2;
   --line:#dedbd5;
 }
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--black);font-family:'DM Sans',sans-serif}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--black);
+  font-family:'DM Sans',sans-serif;
+}
+
 a{color:inherit;text-decoration:none}
-.topline{background:var(--black);color:white;padding:9px 5%;display:flex;justify-content:space-between;font-size:11px;letter-spacing:1px}
-header{padding:24px 5% 16px;border-bottom:1px solid var(--line)}
-.brand{text-align:center;font-family:'Playfair Display',serif;font-size:clamp(38px,8vw,76px);font-weight:800;letter-spacing:-3px;line-height:1}
+
+.topline{
+  background:var(--black);
+  color:white;
+  padding:9px 5%;
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+header{
+  padding:24px 5% 16px;
+  border-bottom:1px solid var(--line);
+}
+
+.brand{
+  text-align:center;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(38px,8vw,76px);
+  font-weight:800;
+  letter-spacing:-3px;
+  line-height:1;
+}
+
 .brand span{color:var(--red)}
-.tagline{text-align:center;margin-top:9px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gray)}
-nav{display:flex;justify-content:center;gap:25px;flex-wrap:wrap;padding:15px 5%;border-bottom:3px solid var(--black);font-size:12px;font-weight:700;text-transform:uppercase}
+
+.tagline{
+  text-align:center;
+  margin-top:9px;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gray);
+}
+
+nav{
+  display:flex;
+  justify-content:center;
+  gap:22px;
+  flex-wrap:wrap;
+  padding:15px 5%;
+  border-bottom:3px solid var(--black);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+}
+
 nav a:hover{color:var(--red)}
-.container{max-width:1180px;margin:auto;padding:30px 22px}
-.kicker{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--red)}
-.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:35px;align-items:center;padding:15px 0 38px;border-bottom:1px solid var(--line)}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,6vw,68px);line-height:1.03;letter-spacing:-2px;margin:15px 0}
-.hero p{font-size:16px;line-height:1.8;color:#555;max-width:550px}
-.hero-image{width:100%;height:430px;object-fit:cover;object-position:center 25%;filter:contrast(1.03)}
-.byline{font-size:11px;color:var(--gray);margin-top:20px}
-.section-title{font-family:'Playfair Display',serif;font-size:30px;margin:36px 0 20px;border-bottom:3px solid var(--black);padding-bottom:10px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.article{border-bottom:1px solid var(--line);padding-bottom:22px}
-.article .number{font-family:'Playfair Display',serif;font-size:32px;color:var(--red)}
-.article h3{font-family:'Playfair Display',serif;font-size:23px;line-height:1.2;margin:8px 0}
-.article p{font-size:13px;line-height:1.7;color:#666}
-.label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--red);text-transform:uppercase}
-#latest-news{margin-top:40px}
-#edition-date{margin-bottom:22px}
-.news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:25px}
-.news-card{padding:20px 0;border-bottom:1px solid var(--line)}
-.news-card h3{font-family:'Playfair Display',serif;font-size:23px;line-height:1.25;margin:10px 0}
-.news-card p{font-size:14px;line-height:1.7;color:#666}
-.news-card a{color:var(--red);font-size:12px;font-weight:800}
-.news-card a:hover{text-decoration:underline}
-.news-category{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--red);text-transform:uppercase}
-@media(max-width:700px){.news-grid{grid-template-columns:1fr}}
-.about{margin-top:45px;background:#191919;color:white;padding:35px;display:grid;grid-template-columns:1fr 2fr;gap:25px;align-items:center}
-.about h2{font-family:'Playfair Display',serif;font-size:35px;margin:0}
-.about p{font-size:14px;line-height:1.8;color:#ccc}
-footer{background:var(--black);color:#aaa;padding:25px 5%;text-align:center;font-size:11px;letter-spacing:1px;margin-top:40px}
+
+.container{
+  max-width:1180px;
+  margin:auto;
+  padding:30px 22px;
+}
+
+.kicker{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--red);
+}
+
+.hero{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:35px;
+  align-items:center;
+  padding:15px 0 38px;
+  border-bottom:1px solid var(--line);
+}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(38px,6vw,68px);
+  line-height:1.03;
+  letter-spacing:-2px;
+  margin:15px 0;
+}
+
+.hero p{
+  font-size:16px;
+  line-height:1.8;
+  color:#555;
+  max-width:550px;
+}
+
+.hero-image{
+  width:100%;
+  height:430px;
+  object-fit:cover;
+  object-position:center 25%;
+  filter:contrast(1.03);
+}
+
+.byline{
+  font-size:11px;
+  color:var(--gray);
+  margin-top:20px;
+}
+
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:30px;
+  margin:36px 0 20px;
+  border-bottom:3px solid var(--black);
+  padding-bottom:10px;
+}
+
+/* КОМПАКТНЫЕ РУБРИКИ */
+
+.topics-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px 14px;
+  margin-top:20px;
+}
+
+.topic{
+  border:1px solid var(--line);
+  background:#fff;
+  min-width:0;
+  align-self:start;
+}
+
+.topic summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:54px;
+  padding:12px 14px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+  transition:.2s;
+}
+
+.topic summary::-webkit-details-marker{
+  display:none;
+}
+
+.topic summary:hover{
+  color:var(--red);
+}
+
+.topic summary span{
+  color:var(--red);
+  font-family:'Playfair Display',serif;
+  font-size:19px;
+  font-weight:700;
+}
+
+.topic summary b{
+  margin-left:auto;
+  color:var(--red);
+  font-size:19px;
+  font-weight:400;
+}
+
+.topic[open]{
+  border-color:var(--red);
+  grid-column:1 / -1;
+}
+
+.topic[open] summary{
+  border-bottom:1px solid var(--line);
+  background:#fff;
+}
+
+.topic[open] summary b{
+  transform:rotate(45deg);
+}
+
+.topic-news{
+  padding:5px 16px 12px;
+}
+
+.topic-news:empty{
+  display:none;
+}
+
+.news-card{
+  padding:17px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.news-card:last-child{
+  border-bottom:none;
+}
+
+.news-category{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  color:var(--red);
+  text-transform:uppercase;
+}
+
+.news-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:21px;
+  line-height:1.3;
+  margin:8px 0;
+}
+
+.news-card p{
+  font-size:13px;
+  line-height:1.7;
+  color:#666;
+  margin:8px 0;
+}
+
+.news-card a{
+  color:var(--red);
+  font-size:11px;
+  font-weight:800;
+}
+
+.news-card a:hover{
+  text-decoration:underline;
+}
+
+.news-empty{
+  padding:16px 0;
+  color:#777;
+  font-size:13px;
+}
+
+#edition-date{
+  margin:14px 0 5px;
+}
+
+#other-news{
+  margin-top:25px;
+}
+
+.about{
+  margin-top:45px;
+  background:#191919;
+  color:white;
+  padding:35px;
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:25px;
+  align-items:center;
+}
+
+.about h2{
+  font-family:'Playfair Display',serif;
+  font-size:35px;
+  margin:0;
+}
+
+.about p{
+  font-size:14px;
+  line-height:1.8;
+  color:#ccc;
+}
+
+footer{
+  background:var(--black);
+  color:#aaa;
+  padding:25px 5%;
+  text-align:center;
+  font-size:11px;
+  letter-spacing:1px;
+  margin-top:40px;
+}
+
 footer strong{color:white}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
 @media(max-width:700px){
- .topline{font-size:9px;padding:9px 12px}
- header{padding:22px 10px 15px}
- .brand{letter-spacing:-2px}
- nav{gap:13px;font-size:10px;padding:13px 8px}
- .container{padding:22px 17px}
- .hero{grid-template-columns:1fr;gap:20px}
- .hero h1{font-size:43px}
- .hero-image{height:390px;object-position:center 25%}
- .grid{grid-template-columns:1fr;gap:20px}
- .about{grid-template-columns:1fr;padding:25px}
- .section-title{font-size:27px}
+
+  .topline{
+    font-size:9px;
+    padding:9px 12px;
+  }
+
+  header{
+    padding:22px 10px 15px;
+  }
+
+  .brand{letter-spacing:-2px}
+
+  nav{
+    gap:13px;
+    font-size:10px;
+    padding:13px 8px;
+  }
+
+  .container{
+    padding:22px 14px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+
+  .hero h1{font-size:43px}
+
+  .hero-image{
+    height:390px;
+    object-position:center 25%;
+  }
+
+  .topics-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+
+  .topic summary{
+    min-height:49px;
+    padding:10px 8px;
+    gap:6px;
+    font-size:10px;
+    letter-spacing:.4px;
+  }
+
+  .topic summary span{font-size:16px}
+
+  .topic summary b{font-size:16px}
+
+  .topic-news{padding:5px 11px 10px}
+
+  .topic[open]{
+    grid-column:1 / -1;
+  }
+
+  .news-card h3{font-size:19px}
+
+  .about{
+    grid-template-columns:1fr;
+    padding:25px;
+  }
+
+  .section-title{font-size:27px}
 }
 </style>
 </head>
+
 <body>
+
 <div class="topline">
   <span>LEBEDEV MEDIA GROUP</span>
   <span id="clock">МОСКВА</span>
@@ -83,16 +389,18 @@ footer strong{color:white}
 
 <nav>
   <a href="#main">Главное</a>
-  <a href="#politics">Политика</a>
+  <a href="#politics">Мир</a>
   <a href="#law">Право</a>
   <a href="#society">Общество</a>
   <a href="#economy">Экономика</a>
   <a href="#technology">Технологии</a>
   <a href="#mind">Психология</a>
-  <a href="#stories">Истории</a>
+  <a href="#stories">Загадки</a>
+  <a href="#kaliningrad">Калининград</a>
 </nav>
 
 <main class="container">
+
 <section class="hero" id="main">
   <div>
     <div class="kicker">Главная тема · LEBEDEV TIME</div>
@@ -100,56 +408,72 @@ footer strong{color:white}
     <p>Новости, аналитика и истории о людях, обществе и событиях, которые формируют наше настоящее и будущее.</p>
     <div class="byline">LEBEDEV TIME · ЛИЧНЫЙ РЕДАКЦИОННЫЙ ПРОЕКТ</div>
   </div>
+
   <img class="hero-image" src="portrait.PNG" alt="Портрет основателя LEBEDEV TIME">
 </section>
 
-<h2 class="section-title">Главные направления</h2>
-<section class="grid">
-  <article class="article" id="politics">
-    <div class="number">01</div><div class="label">Политика</div>
-    <h3>Власть и общество</h3>
-    <p>Ключевые политические события, решения и процессы, определяющие развитие страны и мира.</p>
-  </article>
-  <article class="article" id="law">
-    <div class="number">02</div><div class="label">Право</div>
-    <h3>Закон и справедливость</h3>
-    <p>Правовые изменения, судебная практика, громкие дела и вопросы законности.</p>
-  </article>
-  <article class="article" id="society">
-    <div class="number">03</div><div class="label">Общество</div>
-    <h3>Люди и перемены</h3>
-    <p>Социальные тенденции, общественные явления и истории человеческих судеб.</p>
-  </article>
-  <article class="article" id="economy">
-    <div class="number">04</div><div class="label">Экономика</div>
-    <h3>Деньги и будущее</h3>
-    <p>Экономические процессы, бизнес, рынки и решения, влияющие на повседневную жизнь.</p>
-  </article>
-  <article class="article" id="technology">
-    <div class="number">05</div><div class="label">Технологии</div>
-    <h3>Будущее уже наступило</h3>
-    <p>Искусственный интеллект, цифровой мир, научные открытия и технологические прорывы.</p>
-  </article>
-  <article class="article" id="mind">
-    <div class="number">06</div><div class="label">Психология</div>
-    <h3>Почему мы поступаем именно так?</h3>
-    <p>Психология поведения, мышление, отношения и скрытые механизмы человеческих решений.</p>
-  </article>
-  <article class="article" id="stories">
-    <div class="number">07</div><div class="label">Необычные истории</div>
-    <h3>Тайны, загадки и открытия</h3>
-    <p>Удивительные события, неразгаданные истории и факты, заставляющие задуматься.</p>
-  </article>
-</section>
-<section id="latest-news">
-  <h2 class="section-title">Свежий выпуск LEBEDEV TIME</h2>
+<section id="categories">
+
+  <h2 class="section-title">Рубрики журнала</h2>
+
   <div id="edition-date" class="byline">Загрузка выпуска...</div>
-  <div id="news-container"></div>
+
+  <div class="topics-grid">
+
+    <details class="topic" id="politics">
+      <summary><span>01</span> МИР <b>+</b></summary>
+      <div class="topic-news" data-category="politics"></div>
+    </details>
+
+    <details class="topic" id="law">
+      <summary><span>02</span> ПРАВО <b>+</b></summary>
+      <div class="topic-news" data-category="law"></div>
+    </details>
+
+    <details class="topic" id="society">
+      <summary><span>03</span> ОБЩЕСТВО <b>+</b></summary>
+      <div class="topic-news" data-category="society"></div>
+    </details>
+
+    <details class="topic" id="economy">
+      <summary><span>04</span> ЭКОНОМИКА <b>+</b></summary>
+      <div class="topic-news" data-category="economy"></div>
+    </details>
+
+    <details class="topic" id="technology">
+      <summary><span>05</span> ТЕХНОЛОГИИ <b>+</b></summary>
+      <div class="topic-news" data-category="technology"></div>
+    </details>
+
+    <details class="topic" id="mind">
+      <summary><span>06</span> ПСИХОЛОГИЯ <b>+</b></summary>
+      <div class="topic-news" data-category="mind"></div>
+    </details>
+
+    <details class="topic" id="stories">
+      <summary><span>07</span> ЗАГАДКИ <b>+</b></summary>
+      <div class="topic-news" data-category="stories"></div>
+    </details>
+
+    <details class="topic" id="kaliningrad">
+      <summary><span>08</span> КАЛИНИНГРАД <b>+</b></summary>
+      <div class="topic-news" data-category="kaliningrad"></div>
+    </details>
+
+  </div>
+
+  <section id="other-news" hidden>
+    <h2 class="section-title">Другие материалы выпуска</h2>
+    <div id="other-news-container"></div>
+  </section>
+
 </section>
+
 <section class="about">
   <h2>LEBEDEV TIME</h2>
   <p>Это авторский медиапроект о том, что действительно заслуживает внимания. Мы стремимся смотреть глубже заголовков, отделять факты от мнений и находить смысл в происходящем. <strong>Время понимать главное.</strong></p>
 </section>
+
 </main>
 
 <footer>
@@ -160,73 +484,48 @@ footer strong{color:white}
 
 <script>
 function updateClock(){
- const now=new Date();
- const moscow=new Date(now.toLocaleString("en-US",{timeZone:"Europe/Moscow"}));
- document.getElementById("clock").textContent=
- "МОСКВА · "+moscow.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
-}
-updateClock();
-setInterval(updateClock,1000);
-document.getElementById("year").textContent=new Date().getFullYear();
-</script>
-<script>
-async function loadEdition() {
-  const container = document.getElementById("news-container");
-  const dateElement = document.getElementById("edition-date");
+  const now = new Date();
+  const moscow = new Date(
+    now.toLocaleString("en-US", {timeZone:"Europe/Moscow"})
+  );
 
-  try {
-    const response = await fetch("data/edition.json?t=" + Date.now());
-
-    if (!response.ok) {
-      throw new Error("Выпуск пока недоступен");
-    }
-
-    const edition = await response.json();
-
-    dateElement.textContent = "Выпуск от " + edition.date;
-
-    if (!edition.articles || edition.articles.length === 0) {
-      container.textContent = "В этом выпуске пока нет статей.";
-      return;
-    }
-
-    const groups = {};
-
-    edition.articles.forEach(article => {
-      if (!groups[article.category]) {
-        groups[article.category] = [];
-      }
-      groups[article.category].push(article);
+  document.getElementById("clock").textContent =
+    "МОСКВА · " +
+    moscow.toLocaleTimeString("ru-RU", {
+      hour:"2-digit",
+      minute:"2-digit"
     });
-
-    container.innerHTML = Object.entries(groups).map(([category, articles]) => `
-      <h2 class="section-title">${escapeHTML(category)}</h2>
-      <div class="news-grid">
-        ${articles.map(article => `
-          <article class="news-card">
-            <div class="news-category">${escapeHTML(article.source || category)}</div>
-            <h3>${escapeHTML(article.title)}</h3>
-            <p>${escapeHTML(article.summary)}</p>
-            <a href="${safeURL(article.url)}" target="_blank" rel="noopener noreferrer">ЧИТАТЬ ИСТОЧНИК →</a>
-          </article>
-        `).join("")}
-      </div>
-    `).join("");
-
-  } catch (error) {
-    console.error(error);
-    dateElement.textContent = "Не удалось загрузить выпуск.";
-    container.textContent = "Попробуйте обновить страницу позже.";
-  }
 }
+
+updateClock();
+setInterval(updateClock, 1000);
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+/* РАСКРЫТИЕ ТОЛЬКО ОДНОЙ РУБРИКИ */
+
+document.querySelectorAll(".topic").forEach(topic => {
+  topic.addEventListener("toggle", () => {
+    if (topic.open) {
+      document.querySelectorAll(".topic").forEach(other => {
+        if (other !== topic) {
+          other.open = false;
+        }
+      });
+    }
+  });
+});
+
+/* ЗАГРУЗКА НОВОСТЕЙ */
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
   })[char]);
 }
 
@@ -239,7 +538,132 @@ function safeURL(value) {
   }
 }
 
+function getCategoryKey(category) {
+  const value = String(category || "").toLowerCase();
+
+  if (value.includes("калининград") || value.includes("балтий")) {
+    return "kaliningrad";
+  }
+
+  if (value.includes("полит")) {
+    return "politics";
+  }
+
+  if (value.includes("прав") || value.includes("закон")) {
+    return "law";
+  }
+
+  if (value.includes("обще")) {
+    return "society";
+  }
+
+  if (value.includes("эконом") || value.includes("финанс") || value.includes("бизнес")) {
+    return "economy";
+  }
+
+  if (value.includes("технолог") || value.includes("наук")) {
+    return "technology";
+  }
+
+  if (value.includes("психолог") || value.includes("поведен")) {
+    return "mind";
+  }
+
+  if (value.includes("необыч") || value.includes("загад") || value.includes("истор")) {
+    return "stories";
+  }
+
+  return null;
+}
+
+function createNewsCard(article) {
+  return `
+    <article class="news-card">
+      <div class="news-category">
+        ${escapeHTML(article.source || article.category || "LEBEDEV TIME")}
+      </div>
+      <h3>${escapeHTML(article.title)}</h3>
+      <p>${escapeHTML(article.summary)}</p>
+      <a href="${safeURL(article.url)}" target="_blank" rel="noopener noreferrer">
+        ЧИТАТЬ ИСТОЧНИК →
+      </a>
+    </article>
+  `;
+}
+
+async function loadEdition() {
+  const dateElement = document.getElementById("edition-date");
+
+  try {
+    const response = await fetch("data/edition.json?t=" + Date.now());
+
+    if (!response.ok) {
+      throw new Error("Выпуск пока недоступен");
+    }
+
+    const edition = await response.json();
+
+    dateElement.textContent = "ВЫПУСК ОТ " + edition.date;
+
+    const articles = edition.articles || [];
+
+    const groups = {
+      politics: [],
+      law: [],
+      society: [],
+      economy: [],
+      technology: [],
+      mind: [],
+      stories: [],
+      kaliningrad: []
+    };
+
+    const otherArticles = [];
+
+    articles.forEach(article => {
+      const key = getCategoryKey(article.category);
+
+      if (key && groups[key]) {
+        groups[key].push(article);
+      } else {
+        otherArticles.push(article);
+      }
+    });
+
+    document.querySelectorAll(".topic-news").forEach(container => {
+      const key = container.dataset.category;
+      const group = groups[key] || [];
+
+      if (group.length === 0) {
+        container.innerHTML =
+          '<div class="news-empty">В этом выпуске пока нет материалов этой рубрики.</div>';
+      } else {
+        container.innerHTML = group.map(createNewsCard).join("");
+      }
+    });
+
+    if (otherArticles.length > 0) {
+      document.getElementById("other-news").hidden = false;
+
+      document.getElementById("other-news-container").innerHTML =
+        otherArticles.map(createNewsCard).join("");
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    dateElement.textContent = "Не удалось загрузить выпуск.";
+
+    document.querySelectorAll(".topic-news").forEach(container => {
+      container.innerHTML =
+        '<div class="news-empty">Не удалось загрузить новости. Попробуйте обновить страницу позже.</div>';
+    });
+  }
+}
+
 loadEdition();
 </script>
+
 </body>
 </html>
+
