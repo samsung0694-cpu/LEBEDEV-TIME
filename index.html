@@ -767,7 +767,17 @@ async function loadEdition() {
         container.innerHTML = group.map(createNewsCard).join("");
       }
     });
+    Object.keys(groups).forEach(category => {
+      const container = document.querySelector(
+        `.topic-news[data-category="${category}"]`
+      );
 
+      if (container) {
+        container.innerHTML = groups[category]
+          .map(createNewsCard)
+          .join("");
+      }
+    });
     if (otherArticles.length > 0) {
       document.getElementById("other-news").hidden = false;
 
