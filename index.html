@@ -604,10 +604,17 @@ function getCategoryKey(category) {
 
 function createNewsCard(article) {
   const imageURL = safeURL(article.image);
+  const sourceURL = safeURL(article.url);
+
+  const paragraphs = String(article.body || "")
+    .split(/\n\s*\n/)
+    .filter(p => p.trim())
+    .map(p => `<p>${escapeHTML(p.trim())}</p>`)
+    .join("");
 
   return `
     <article class="news-card">
-      ${imageURL ? `
+      ${imageURL && imageURL !== "#" ? `
         <img
           class="news-image"
           src="${imageURL}"
@@ -616,6 +623,33 @@ function createNewsCard(article) {
           referrerpolicy="no-referrer"
         >
       ` : ""}
+
+      <div class="news-category">
+        ${escapeHTML(article.source || article.category || "LEBEDEV TIME")}
+      </div>
+
+      <h3>${escapeHTML(article.title || "")}</h3>
+      <p>${escapeHTML(article.summary || "")}</p>
+
+      <details class="article-details">
+        <summary>ПОДРОБНЕЕ</summary>
+
+        <div class="article-full">
+          ${paragraphs || "<p>Полный текст статьи пока недоступен.</p>"}
+
+          ${sourceURL && sourceURL !== "#" ? `
+            <div class="article-source">
+              Источник:
+              <a href="${sourceURL}" target="_blank" rel="noopener noreferrer">
+                ${escapeHTML(article.source || "Первоисточник")}
+              </a>
+            </div>
+          ` : ""}
+        </div>
+      </details>
+    </article>
+  `;
+}
 
       <div class="news-category">
         ${escapeHTML(article.source || article.category || "LEBEDEV TIME")}
