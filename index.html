@@ -159,6 +159,117 @@ button{font:inherit}
   width:100%;aspect-ratio:16/9;object-fit:cover;
   background:var(--soft);display:block;
 }
+  
+/* КОСМОС БЕЗ ГРАНИЦ */
+
+.space-feature{
+  margin-bottom:26px;
+  padding-bottom:20px;
+  border-bottom:2px solid var(--black);
+}
+
+.space-label{
+  background:#17202c;
+  color:#fff;
+  border-left:4px solid #d71920;
+  padding:10px 12px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.space-video{
+  display:block;
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  background:#080d18;
+}
+
+.space-placeholder{
+  width:100%;
+  aspect-ratio:16/9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#101a30,#344968);
+  color:#fff;
+  font-family:Georgia,serif;
+  font-size:17px;
+  letter-spacing:2px;
+}
+
+.space-feature h3{
+  font-family:Georgia,serif;
+  font-size:21px;
+  line-height:1.2;
+  margin:13px 0 8px;
+}
+
+.space-feature p{
+  color:#555;
+  font-size:12px;
+  line-height:1.6;
+  margin:0 0 10px;
+}
+
+.space-source{
+  color:#999;
+  font-size:9px;
+  margin-bottom:12px;
+}
+
+.space-read{
+  background:#17202c;
+  color:#fff;
+  border:0;
+  padding:11px 15px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+.space-read:hover{
+  background:#d71920;
+}
+
+.space-modal-video{
+  width:100%;
+  max-height:420px;
+  object-fit:cover;
+  margin:15px 0;
+  background:#080d18;
+}
+
+.space-modal-summary{
+  font-size:16px;
+  line-height:1.6;
+  font-weight:600;
+  margin:18px 0;
+}
+
+.space-modal-body{
+  font-size:15px;
+  line-height:1.8;
+  color:#333;
+}
+
+.space-modal-source{
+  border-top:1px solid #ddd;
+  margin-top:25px;
+  padding-top:15px;
+  font-size:11px;
+  color:#888;
+}
+
+.space-modal-source a{
+  display:block;
+  margin-top:8px;
+  color:#17202c;
+}
+
 .feature-card .news-title{font-size:21px}
 .feature-card:hover .news-title{color:var(--red)}
 .feature-card .news-summary{margin-top:7px}
@@ -670,6 +781,50 @@ function renderEdition(data){
     return;
   }
 
+let currentSpaceArticle = null;
+
+function openSpaceArticle(){
+  if(!currentSpaceArticle) return;
+
+  const article = currentSpaceArticle;
+
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay";
+
+  overlay.innerHTML = `
+    <div class="article-modal">
+      <button class="modal-close" aria-label="Закрыть">×</button>
+      <div class="section-kicker">LEBEDEV TIME · КОСМОС БЕЗ ГРАНИЦ</div>
+      <h2>${escapeHTML(article.title || "")}</h2>
+      ${
+        article.video
+          ? `<video class="space-modal-video" autoplay muted loop playsinline controls>
+               <source src="${escapeHTML(article.video)}" type="video/mp4">
+             </video>`
+          : ""
+      }
+      <p class="space-modal-summary">${escapeHTML(article.summary || "")}</p>
+      <div class="space-modal-body">
+        ${escapeHTML(article.body || "").replace(/\n/g, "<br><br>")}
+      </div>
+      <div class="space-modal-source">
+        Материал подготовлен ИИ для LEBEDEV TIME.
+        ${article.video_page
+          ? `<a href="${escapeHTML(article.video_page)}" target="_blank" rel="noopener">Видеоматериал NASA</a>`
+          : ""}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  overlay.querySelector(".modal-close").onclick = () => overlay.remove();
+
+  overlay.onclick = event => {
+    if(event.target === overlay) overlay.remove();
+  };
+}
+
   const urgent = articles.map((a,i)=>({a,i})).filter(x=>x.a.urgent || x.a.breaking);
   const important = articles.map((a,i)=>({a,i})).filter(x=>!urgent.some(u=>u.i===x.i) && (x.a.featured || x.a.important));
   const kaliningrad = articles.map((a,i)=>({a,i})).filter(x=>categoryKey(x.a.category)==="kaliningrad");
@@ -683,9 +838,46 @@ function renderEdition(data){
   kaliningrad.forEach(add);
   articles.forEach((a,i)=>add({a,i}));
 
-  $("#featured-news").innerHTML = selected.map((item,n)=>
-    featureHTML(item.a,item.i,n===0 && urgent.some(x=>x.i===item.i) ? "СРОЧНО" : n===0 ? "В ФОКУСЕ" : "ВАЖНО")
-  ).join("");
+
+  const space = data.space_article;
+  currentSpaceArticle = space;
+  const spaceHTML = space ? `
+    <div class="space-feature">
+      <div class="space-label">КОСМОС БЕЗ ГРАНИЦ</div>
+      ${
+        space.video
+          ? `<video class="space-video"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="metadata">
+               <source src="${escapeHTML(space.video)}" type="video/mp4">
+             </video>`
+          : `<div class="space-placeholder">✦ КОСМОС БЕЗ ГРАНИЦ ✦</div>`
+      }
+      <h3>${escapeHTML(space.title || "Тайны Вселенной")}</h3>
+      <p>${escapeHTML(space.summary || "")}</p>
+      <div class="space-source">
+        ${escapeHTML(space.video_source || "LEBEDEV TIME")}
+      </div>
+      <button class="space-read" onclick="openSpaceArticle()">
+        ЧИТАТЬ ПОЛНОСТЬЮ →
+      </button>
+    </div>
+  ` : "";
+
+  $("#featured-news").innerHTML =
+    spaceHTML +
+    selected.map((item,n)=>
+      featureHTML(
+        item.a,
+        item.i,
+        n===0 && urgent.some(x=>x.i===item.i)
+          ? "СРОЧНО"
+          : n===0 ? "В ФОКУСЕ" : "ВАЖНО"
+      )
+    ).join("");
 
   const featuredIndexes = new Set(selected.map(item=>item.i));
   const rest = articles.map((a,i)=>({a,i})).filter(item=>!featuredIndexes.has(item.i));
