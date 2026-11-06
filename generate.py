@@ -786,10 +786,6 @@ def find_nasa_video(space_article):
     print("Видео NASA не найдено")
     return {}
 
-    except Exception as error:
-        print("Ошибка поиска видео NASA:", error)
-        return {}
-
 def generate_space_article():
     """
     Создаёт ежедневную научно-популярную статью о космосе.
